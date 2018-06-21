@@ -1,6 +1,9 @@
 import asyncio
 import json
-import requests
+#from server.requests import *
+from . jrequest import requests
+from . jrequest import request_type
+
 
 class AServer(object):
     """
@@ -9,9 +12,11 @@ class AServer(object):
         when data is read. See requests.py
     """
 
-    def __init__(self, port):
+    def __init__(self, port, bot):
 
+        print(request_type.get_types())
         self.port = port
+        self.bot = bot
 
         # constants
         self.BUFFER_SIZE = 512
@@ -29,11 +34,12 @@ class AServer(object):
         self.__loop = asyncio.get_event_loop()
         self.__alive = True
         coro = asyncio.start_server(self.handle_connection, 'localhost', self.port)
-        self.__loop.run_until_complete(coro)
-        try:
-            self.__loop.run_forever()
-        finally:
-            self.__loop.close()
+        asyncio.ensure_future(coro)
+
+       # try:
+       #     self.__loop.run_forever()
+       # finally:
+       #     self.__loop.close()
 
 
     def stop(self):
@@ -71,7 +77,7 @@ class AServer(object):
                         self.stop()
 
                     # invoke a callback belonging to a requset type if it is available
-                    funcs = requests.get_types()
+                    funcs = request_type.get_types()
                     if(funcs.get(data['type'])):    
                         await funcs[data['type']](self, data)
 
@@ -85,18 +91,12 @@ class AServer(object):
 
     async def write(self, message: str):
         """
-            Writes data to the stream writer and then
-            closes the server (for now)
+            Writes data to the stream writer
         """
         if self.__writer == None:
             return
 
         self.__writer.write(message.encode())
         await self.__writer.drain()
-        self.stop()
 
 
-# testing
-if __name__ == "__main__":
-    server = AServer(6000)
-    server.start()
