@@ -1,5 +1,3 @@
-#from inspect import signature
-
 request_types = {}
 
 class request_type(object):
