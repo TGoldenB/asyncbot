@@ -1,7 +1,6 @@
 import asyncio
 import json
 
-from . jrequest import requests
 from . jrequest import request_type
 
 

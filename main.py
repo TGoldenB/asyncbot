@@ -2,6 +2,10 @@ import discord
 from discord.ext import commands
 import asyncio
 import server.server as server
+import settings
+
+#Request types
+import requests
 
 description = """
 Discord-SARP Connector\n
@@ -12,10 +16,10 @@ bot = commands.Bot(command_prefix='!', description=description)
 @bot.event
 async def on_ready():
     print('Connected to Discord')
-    s = server.AServer(6000, bot)
+    s = server.AServer(settings.SERVER_PORT, bot)
     s.start()
 
 
 
 print(server)
-bot.run('NDU5MTgyMDgwODMyNzAwNDE2.DgyeLw.KUhtSMWYimkn-Ud2hYB7csiYAMU')
+bot.run(settings.BOT_TOKEN)
