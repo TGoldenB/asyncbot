@@ -5,4 +5,4 @@ An asynchronous middle-man server interacting between some client and Discord. I
 The client side code remains private.
 
 ### TODO:
-1. Add a `settings` file
+1. Nothing: working on client side.
