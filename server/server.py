@@ -32,7 +32,7 @@ class AServer(object):
         """
         self.__loop = asyncio.get_event_loop()
         self.__alive = True
-        coro = asyncio.start_server(self.handle_connection, 'localhost', self.port)
+        coro = asyncio.start_server(self.handle_connection, '0.0.0.0', self.port)
         asyncio.ensure_future(coro)
 
        # try:
@@ -64,8 +64,11 @@ class AServer(object):
             self.__writer = writer
 
             while self.__alive:
-                data = await reader.readline()
+                await self.write("hi")
+                data = await reader.readuntil(b"\r\n")
                 data = data.decode('ascii')
+                
+                print(data)
 
                 try:
                     # try parse the JSON, then get the type of request
@@ -85,6 +88,7 @@ class AServer(object):
 
         except ConnectionError:
             self._writer = None
+            print("Client disconnected")
 
 
 
