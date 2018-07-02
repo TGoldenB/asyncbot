@@ -3,6 +3,7 @@ from discord.ext import commands
 import asyncio
 import server.server as server
 import settings
+import json
 
 #Request types
 import requests
@@ -12,14 +13,26 @@ Discord-SARP Connector\n
 Author: dy1zan
 """
 bot = commands.Bot(command_prefix='!', description=description)
+s = None
 
 @bot.event
 async def on_ready():
     print('Connected to Discord')
+    global s
     s = server.AServer(settings.SERVER_PORT, bot)
     s.start()
 
+@bot.command(pass_context=True)
+async def asay(ctx, *, msg : str):
+    out = json.dumps({
+        "type":"asay",
+        "sender":str(ctx.message.author),
+        "message":msg
+    })
+    global s
+    await s.write(out)
 
 
-print(server)
+
+
 bot.run(settings.BOT_TOKEN)

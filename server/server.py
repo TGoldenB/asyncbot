@@ -64,7 +64,7 @@ class AServer(object):
             self.__writer = writer
 
             while self.__alive:
-                await self.write("hi")
+                #await self.write("hi")
                 data = await reader.readuntil(b"\r\n")
                 data = data.decode('ascii')
                 
