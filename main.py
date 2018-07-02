@@ -23,7 +23,7 @@ async def on_ready():
     s.start()
 
 @bot.command(pass_context=True)
-async def asay(ctx, *, msg : str):
+async def a(ctx, *, msg : str):
     out = json.dumps({
         "type":"asay",
         "sender":str(ctx.message.author),
@@ -32,7 +32,13 @@ async def asay(ctx, *, msg : str):
     global s
     await s.write(out)
 
-
+@bot.command()
+async def admins():
+    out = json.dumps({
+        "type":"admins"
+    })
+    global s
+    await s.write(out)
 
 
 bot.run(settings.BOT_TOKEN)
