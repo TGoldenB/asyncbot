@@ -22,6 +22,7 @@ async def on_ready():
     s = server.AServer(settings.SERVER_PORT, bot)
     s.start()
 
+#These need moving to their own files where Discord commands are specified.
 @bot.command(pass_context=True)
 async def a(ctx, *, msg : str):
     out = json.dumps({

@@ -10,8 +10,11 @@ import json
 # Stock/Default request types (ones that are reused)
 @request_type
 async def basic_player(server, data):
-    embed = discord.Embed(title=data['title'] + " by " + data['player'], description=data['message'], color=discord.Colour(int(data['color'])))
+    #Set title (with player name appended), description and colour of the embed.
+    embed = discord.Embed(title=data['title'] + " " + data['player'], description=data['message'], color=discord.Colour(int(data['color'])))
+    #Set time as footer
     embed.set_footer(text=data['time'])
+    #Send the embedded message to the specified channel
     await server.bot.send_message(discord.Object(id=data['channel']), embed=embed)
 
 @request_type
