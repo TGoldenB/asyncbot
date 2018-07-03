@@ -32,10 +32,12 @@ async def a(ctx, *, msg : str):
     global s
     await s.write(out)
 
-@bot.command()
-async def admins():
+@bot.command(pass_context=True)
+async def admins(ctx):
+    channel = ctx.message.channel
     out = json.dumps({
-        "type":"admins"
+        "type":"admins",
+        "channel":str(channel.id)
     })
     global s
     await s.write(out)

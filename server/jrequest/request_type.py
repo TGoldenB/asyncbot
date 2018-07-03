@@ -1,3 +1,5 @@
+import discord
+
 request_types = {}
 
 class request_type(object):
