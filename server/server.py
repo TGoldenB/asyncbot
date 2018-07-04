@@ -1,7 +1,24 @@
 import asyncio
 import json
+import logging
+from datetime import datetime
 
 from . jrequest import request_type
+
+"""
+    GLOBAL CONSTANTS
+"""
+# The timeout interval for processing a request
+REQUEST_TIMEOUT = 5 # in seconds
+# Log format
+LOG_FORMAT = "%(asctime)s %(levelname)s [%(module)s:%(lineno)d] %(message)s"
+
+
+# Setup logging
+logging.basicConfig(format=LOG_FORMAT, datefmt='[%H:%M:%S]')
+log = logging.getLogger()
+log.setLevel(logging.INFO)
+
 
 
 class AServer(object):
@@ -13,7 +30,8 @@ class AServer(object):
 
     def __init__(self, port, bot):
 
-        print(request_type.get_types())
+        print(*request_type.get_types().keys(), sep="\n")
+
         self.port = port
         self.bot = bot
 
@@ -24,6 +42,7 @@ class AServer(object):
         self.__writer = None
         self.__alive = False
         self.__loop = None
+        self.log = logging.getLogger()
 
 
     def start(self):
@@ -34,11 +53,7 @@ class AServer(object):
         self.__alive = True
         coro = asyncio.start_server(self.handle_connection, '0.0.0.0', self.port)
         asyncio.ensure_future(coro)
-
-       # try:
-       #     self.__loop.run_forever()
-       # finally:
-       #     self.__loop.close()
+        log.info("Server has been started on 0.0.0.0:%d" % self.port)
 
 
     def stop(self):
@@ -47,6 +62,7 @@ class AServer(object):
         """
         self.__loop.stop()
         self.__alive = False
+        log.info("Server has been stopped by request.")
 
 
     async def handle_connection(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
@@ -58,17 +74,19 @@ class AServer(object):
             :param: reader, the stream reader to read data from (in bytes)
             :param: writer, the stream writer to write data to (in bytes)
         """
-        print("Incoming client connection")
+        log.info("Incoming client connection from {}".format(writer.get_extra_info('peername')))
 
         try:
             self.__writer = writer
 
             while self.__alive:
-                #await self.write("hi")
+
+                # I suspect this is blocking too long...however I think this is wrong.
+                #data = await asyncio.wait_for(reader.readuntil(b"\r\n"), timeout=10.0)
                 data = await reader.readuntil(b"\r\n")
                 data = data.decode('ascii')
                 
-                print(data)
+                log.info("Received data from {}:{}".format(writer.get_extra_info('peername'), data))
 
                 try:
                     # try parse the JSON, then get the type of request
@@ -80,15 +98,16 @@ class AServer(object):
 
                     # invoke a callback belonging to a requset type if it is available
                     funcs = request_type.get_types()
-                    if(funcs.get(data['type'])):    
-                        await funcs[data['type']](self, data)
+                    if(funcs.get(data['type'])):
+                        log.info("Invoking request callback, %s, with default timeout=%d." % (data['type'], REQUEST_TIMEOUT))
+                        await asyncio.wait_for(funcs[data['type']](self, data), timeout=REQUEST_TIMEOUT)    
 
                 except:
                     pass
 
         except ConnectionError:
             self._writer = None
-            print("Client disconnected")
+            log.debug("There was a connection error. The client has timed out.")
 
 
 
@@ -99,6 +118,7 @@ class AServer(object):
         if self.__writer == None:
             return
 
+        log.debug("Writing to client: %s" % message)
         self.__writer.write(message.encode())
         await self.__writer.drain()
 
