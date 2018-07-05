@@ -19,7 +19,23 @@ async def basic_player(server, data):
 
 @request_type
 async def basic(server, data):
-    print("Invoking basic request output to Discord...")
     embed = discord.Embed(title=data['title'], description=data['message'], color=discord.Colour(int(data['color'])))
+    embed.set_footer(text=data['time'])
+    await server.bot.send_message(discord.Object(id=data['channel']), embed=embed)
+
+@request_type
+async def table(server, data):
+    embed = discord.Embed(title=data['title'], description="Here is your response...", color=discord.Colour(int(data['color'])))
+
+    lines = data['message'].split('\n')
+
+    for line in lines:
+        cols = line.split('\t')
+        for col in cols:
+            if(len(col) == 0): continue
+            val = col.split('\r')
+
+            embed.add_field(name=val[0], value=val[1], inline=True)
+
     embed.set_footer(text=data['time'])
     await server.bot.send_message(discord.Object(id=data['channel']), embed=embed)

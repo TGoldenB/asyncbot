@@ -36,7 +36,7 @@ class AServer(object):
         self.bot = bot
 
         # constants
-        self.BUFFER_SIZE = 512
+        self.BUFFER_SIZE = 2048
 
         # privates
         self.__writer = None
@@ -105,9 +105,9 @@ class AServer(object):
                 except:
                     pass
 
-        except ConnectionError:
-            self._writer = None
-            log.debug("There was a connection error. The client has timed out.")
+        except (ConnectionError, asyncio.streams.IncompleteReadError):
+            self.__writer = None
+            log.info("There was a connection error. The client has timed out.")
 
 
 
@@ -116,10 +116,12 @@ class AServer(object):
             Writes data to the stream writer
         """
         if self.__writer == None:
-            return
+            return False
 
-        log.debug("Writing to client: %s" % message)
+        log.info("Writing to client: %s" % message)
         self.__writer.write(message.encode())
-        await self.__writer.drain()
+        try: await self.__writer.drain()
+        except: return False
+        return True
 
 
