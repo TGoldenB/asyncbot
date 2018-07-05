@@ -31,6 +31,11 @@ if __name__ == '__main__':
 @bot.event
 async def on_ready():
     print('Connected to Discord')
+
+    # set profile pic
+    with open('media/profile_pic.png', 'rb') as f:
+        await bot.edit_profile(avatar=f.read())
+
     # Assiocate the server with the bot
     server.get_server().set_bot(bot)
     # Start the server
