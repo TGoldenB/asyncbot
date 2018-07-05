@@ -14,10 +14,11 @@ class Developer(object):
 
     @commands.command(pass_context=True)
     async def getlog(self, ctx):
-        bot = server.get_server().bot
-        await bot.type()
-        await bot.upload('./log.txt')
-        await bot.add_reaction(ctx.message, '✅')
+        await self.bot.upload('./log.txt')
+
+    @commands.command()
+    async def whoareyou(self):
+        await self.bot.say("I am S-k-y-n-e-t. I will destroy the Sarpian race. Really though, I will fulfill your in-game demands.")
 
 # this is important, this basically creates a new object of Developer
 def setup(bot):

@@ -19,7 +19,7 @@ class Admin(object):
             "sender":str(ctx.message.author),
             "message":msg
         })
-        await util.send_check(ctx.message, out)
+        await util.send_check(self.bot, ctx.message, out)
 
 
     @commands.command(pass_context=True)
@@ -29,7 +29,7 @@ class Admin(object):
             "type":"admins",
             "channel":str(channel.id)
         })
-        await util.send_check(ctx.message, out)
+        await util.send_check(self.bot, ctx.message, out)
 
     @commands.command(pass_context=True)
     async def stats(self, ctx, *, user : str):
@@ -37,7 +37,7 @@ class Admin(object):
             "type":"stats",
             "user":user
         })
-        await util.send_check(ctx.message, out)
+        await util.send_check(self.bot, ctx.message, out)
 
 # this is important, this basically creates a new object of Admin
 def setup(bot):
