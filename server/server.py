@@ -4,6 +4,7 @@ import logging
 from datetime import datetime
 
 from . jrequest import request_type
+from . import settings
 
 """
     GLOBAL CONSTANTS
@@ -17,9 +18,7 @@ LOG_FORMAT = "%(asctime)s %(levelname)s [%(module)s:%(lineno)d] %(message)s"
 # Setup logging
 logging.basicConfig(format=LOG_FORMAT, datefmt='[%H:%M:%S]')
 log = logging.getLogger()
-log.setLevel(logging.INFO)
-
-
+log.setLevel(logging.DEBUG)
 
 class AServer(object):
     """
@@ -28,12 +27,12 @@ class AServer(object):
         when data is read. See requests.py
     """
 
-    def __init__(self, port, bot):
+    def __init__(self, port):
 
         print(*request_type.get_types().keys(), sep="\n")
 
         self.port = port
-        self.bot = bot
+        self.bot = None
 
         # constants
         self.BUFFER_SIZE = 2048
@@ -44,16 +43,22 @@ class AServer(object):
         self.__loop = None
         self.log = logging.getLogger()
 
+    def set_bot(self, bot):
+        self.bot = bot
 
     def start(self):
         """
             Starts the asynchronous server on the given port.
         """
+        if self.bot == None:
+            log.error("Failed to start server: you must Server.set_bot(bot) before starting the server.")
+            return
+
         self.__loop = asyncio.get_event_loop()
         self.__alive = True
-        coro = asyncio.start_server(self.handle_connection, '0.0.0.0', self.port)
+        coro = asyncio.start_server(self.handle_connection, '127.0.0.1', self.port)
         asyncio.ensure_future(coro)
-        log.info("Server has been started on 0.0.0.0:%d" % self.port)
+        log.info("Server has been started on 127.0.0.1:%d" % self.port)
 
 
     def stop(self):
@@ -125,3 +130,7 @@ class AServer(object):
         return True
 
 
+server = AServer(settings.SERVER_PORT)
+
+def get_server():
+    return server
