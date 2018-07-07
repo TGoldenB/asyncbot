@@ -123,8 +123,11 @@ class AServer(object):
         if self.__writer == None:
             return False
 
+        # escape %
+        message = message.replace("%", "%%")
         log.info("Writing to client: %s" % message)
         self.__writer.write(message.encode())
+        
         try: await self.__writer.drain()
         except: return False
         return True
