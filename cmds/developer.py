@@ -20,6 +20,16 @@ class Developer(object):
     async def whoareyou(self):
         await self.bot.say("I am S-k-y-n-e-t. I will destroy the Sarpian race. Really though, I will fulfill your in-game demands.")
 
+    @commands.command(pass_context=True)
+    async def dt(self, ctx, *, msg : str):
+        out = json.dumps({
+            "type":"dt",
+            "sender":str(ctx.message.author),
+            "message":msg
+        })
+        await util.send_check(self.bot, ctx.message, out)
+
+
 # this is important, this basically creates a new object of Developer
 def setup(bot):
     bot.add_cog(Developer(bot))
