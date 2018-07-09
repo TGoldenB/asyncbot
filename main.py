@@ -9,7 +9,8 @@ import requests
 # import all defined commands in the cmds folder
 cmd_files = [
     'cmds.admin',
-    'cmds.developer'
+    'cmds.developer',
+    'cmds.player'
     ]
 
 
