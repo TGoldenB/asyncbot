@@ -1,6 +1,7 @@
 import asyncio
 import json
 import logging
+import discord
 from datetime import datetime
 
 from . jrequest import request_type
@@ -80,6 +81,7 @@ class AServer(object):
             :param: writer, the stream writer to write data to (in bytes)
         """
         log.info("Incoming client connection from {}".format(writer.get_extra_info('peername')))
+        await self.bot.change_presence(status=discord.Status.online, game=discord.Game(name="Connected"))
 
         try:
             self.__writer = writer
@@ -113,6 +115,7 @@ class AServer(object):
         except (ConnectionError, asyncio.streams.IncompleteReadError):
             self.__writer = None
             log.info("There was a connection error. The client has timed out.")
+            await self.bot.change_presence(status=discord.Status.do_not_disturb, game=discord.Game(name="Not connected"))
 
 
 

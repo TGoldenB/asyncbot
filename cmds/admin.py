@@ -1,4 +1,5 @@
 from discord.ext import commands
+from discord import Member
 from server import server
 import json
 
@@ -7,6 +8,21 @@ from . import util
 """
     This file defines all Discord admin commands
 """
+adminRoles = {
+    "465874213324980244":"Administrator",
+    "465896256972128266":"Junior",
+    "465887716354031624":"General",
+    "465896014130184192":"Senior",
+    "465894668094144512":"Head",
+    "465896094333927424":"Executive"
+}
+
+def is_admin(member : Member) -> str:
+    for role in member.roles:
+        if role.id in adminRoles:
+            return adminRoles[role.id]
+
+
 class Admin(object):
 
     def __init__(self, bot):
@@ -14,6 +30,9 @@ class Admin(object):
 
     @commands.command(pass_context=True)
     async def a(self, ctx, *, msg : str):
+        if not is_admin(ctx.message.author):
+            return await self.bot.say("You are not an administrator.")
+
         out = json.dumps({
             "type":"asay",
             "sender":str(ctx.message.author),
@@ -31,6 +50,7 @@ class Admin(object):
         })
         await util.send_check(self.bot, ctx.message, out)
 
+    """Temporary removing this
     @commands.command(pass_context=True)
     async def stats(self, ctx, *, user : str):
         out = json.dumps({
@@ -38,6 +58,7 @@ class Admin(object):
             "user":user
         })
         await util.send_check(self.bot, ctx.message, out)
+    """
 
 # this is important, this basically creates a new object of Admin
 def setup(bot):

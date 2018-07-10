@@ -33,9 +33,11 @@ if __name__ == '__main__':
 async def on_ready():
     print('Connected to Discord')
 
+    await bot.change_presence(status=discord.Status.do_not_disturb, game=discord.Game(name="Not connected"))
+
     # set profile pic
-    with open('media/profile_pic.png', 'rb') as f:
-        await bot.edit_profile(avatar=f.read())
+    #with open('media/profile_pic.png', 'rb') as f:
+    #    await bot.edit_profile(avatar=f.read())
 
     # Assiocate the server with the bot
     server.get_server().set_bot(bot)
