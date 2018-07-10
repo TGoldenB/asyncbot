@@ -50,6 +50,17 @@ class Admin(object):
         })
         await util.send_check(self.bot, ctx.message, out)
 
+    @commands.command(pass_context=True)
+    async def prison(self, ctx,  player : str, ptime : int, reason : str):
+        out = json.dumps({
+            "type":"prison",
+            "sender":str(ctx.message.author),
+            "player":player,
+            "ptime": ptime,
+            "reason": reason
+        })
+        await util.send_check(self.bot, ctx.message, out)
+
     """Temporary removing this
     @commands.command(pass_context=True)
     async def stats(self, ctx, *, user : str):
