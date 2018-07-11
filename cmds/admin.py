@@ -2,6 +2,7 @@ from discord.ext import commands
 from discord import Member
 from server import server
 import json
+import subprocess
 
 from . import util
 
@@ -60,6 +61,15 @@ class Admin(object):
             "reason": reason
         })
         await util.send_check(self.bot, ctx.message, out)
+
+    @commands.command(pass_context=True)
+    async def getlogs(self, ctx, pattern : str):
+        cmd = ['grep', '-E', pattern, '/home/samp03/server_log.txt']
+        with open('./files/log.txt', 'wb') as logf:
+            subprocess.Popen(cmd, stdout=logf, shell=False) #shell=False to avoid shell injection
+        await self.bot.upload('./files/log.txt')
+
+    
 
     """Temporary removing this
     @commands.command(pass_context=True)
