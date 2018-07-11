@@ -53,6 +53,9 @@ class Admin(object):
 
     @commands.command(pass_context=True)
     async def prison(self, ctx,  player : str, ptime : int, reason : str):
+        
+        if not is_admin(ctx.message.author):
+            return await self.bot.say("You are not an administrator.")
         out = json.dumps({
             "type":"prison",
             "sender":str(ctx.message.author),
