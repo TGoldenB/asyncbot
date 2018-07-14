@@ -52,8 +52,8 @@ class Admin(object):
         await util.send_check(self.bot, ctx.message, out)
 
     @commands.command(pass_context=True)
-    async def prison(self, ctx,  player : str, ptime : int, reason : str):
-        
+    async def prison(self, ctx,  player : str, ptime : int, *, reason : str):
+
         if not is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
         out = json.dumps({
@@ -66,6 +66,20 @@ class Admin(object):
         await util.send_check(self.bot, ctx.message, out)
 
     @commands.command(pass_context=True)
+    async def kick(self, ctx,  player : str, *, reason : str):
+        
+        if not is_admin(ctx.message.author):
+            return await self.bot.say("You are not an administrator.")
+        out = json.dumps({
+            "type":"kick",
+            "sender":str(ctx.message.author),
+            "player":player,
+            "reason": reason
+        })
+        await util.send_check(self.bot, ctx.message, out)
+
+
+    @commands.command(pass_context=True)
     async def getlogs(self, ctx, pattern : str):
         cmd = ['grep', '-E', pattern, '/home/samp03/server_log.txt']
         with open('./files/log.txt', 'wb') as logf:
@@ -74,6 +88,33 @@ class Admin(object):
 
     
 
+    @commands.command(pass_context=True)
+    async def kick(self, ctx,  player : str, *, reason : str):
+        
+        if not is_admin(ctx.message.author):
+            return await self.bot.say("You are not an administrator.")
+        out = json.dumps({
+            "type":"kick",
+            "sender":str(ctx.message.author),
+            "player":player,
+            "reason": reason
+        })
+        await util.send_check(self.bot, ctx.message, out)
+
+
+    @commands.command(pass_context=True)
+    async def w(self, ctx,  player : str, *, message : str):
+        
+        if not is_admin(ctx.message.author):
+            return await self.bot.say("You are not an administrator.")
+            
+        out = json.dumps({
+            "type":"w",
+            "sender":str(ctx.message.author),
+            "player":player,
+            "message": message
+        })
+        await util.send_check(self.bot, ctx.message, out)
     """Temporary removing this
     @commands.command(pass_context=True)
     async def stats(self, ctx, *, user : str):
