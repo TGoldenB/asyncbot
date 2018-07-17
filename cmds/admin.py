@@ -65,18 +65,6 @@ class Admin(object):
         })
         await util.send_check(self.bot, ctx.message, out)
 
-    @commands.command(pass_context=True)
-    async def kick(self, ctx,  player : str, *, reason : str):
-        
-        if not is_admin(ctx.message.author):
-            return await self.bot.say("You are not an administrator.")
-        out = json.dumps({
-            "type":"kick",
-            "sender":str(ctx.message.author),
-            "player":player,
-            "reason": reason
-        })
-        await util.send_check(self.bot, ctx.message, out)
 
 
     @commands.command(pass_context=True)
