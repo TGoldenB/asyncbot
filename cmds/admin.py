@@ -3,6 +3,7 @@ from discord import Member
 from server import server
 import json
 import subprocess
+import asyncio
 
 from . import util
 
@@ -69,9 +70,13 @@ class Admin(object):
 
     @commands.command(pass_context=True)
     async def getlogs(self, ctx, pattern : str):
-        cmd = ['grep', '-E', pattern, '/home/sarp/samp03z/server_log.txt']
+        if not is_admin(ctx.message.author):
+            return await self.bot.say("You are not an administrator.")
+            
+        cmd = ['grep', '-m 3000', '-E', pattern, '/home/sarp/samp03z/server_log.txt']
         with open('./files/log.txt', 'wb') as logf:
             subprocess.Popen(cmd, stdout=logf, shell=False) #shell=False to avoid shell injection
+        await asyncio.sleep(2)
         await self.bot.upload('./files/log.txt')
 
     
