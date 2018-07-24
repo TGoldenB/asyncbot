@@ -69,7 +69,7 @@ class Admin(object):
 
     @commands.command(pass_context=True)
     async def getlogs(self, ctx, pattern : str):
-        cmd = ['grep', '-E', pattern, '/home/samp03/server_log.txt']
+        cmd = ['grep', '-E', pattern, '/home/sarp/samp03z/server_log.txt']
         with open('./files/log.txt', 'wb') as logf:
             subprocess.Popen(cmd, stdout=logf, shell=False) #shell=False to avoid shell injection
         await self.bot.upload('./files/log.txt')

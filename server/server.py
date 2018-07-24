@@ -91,7 +91,10 @@ class AServer(object):
                 # I suspect this is blocking too long...however I think this is wrong.
                 #data = await asyncio.wait_for(reader.readuntil(b"\r\n"), timeout=10.0)
                 data = await reader.readuntil(b"\r\n")
-                data = data.decode('ascii')
+                try:
+                    data = data.decode('ascii')
+                except UnicodeDecodeError:
+                    continue
                 
                 log.info("Received data from {}:{}".format(writer.get_extra_info('peername'), data))
 
