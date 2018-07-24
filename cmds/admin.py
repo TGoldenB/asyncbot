@@ -36,7 +36,7 @@ class Admin(object):
 
         out = json.dumps({
             "type":"asay",
-            "sender":str(ctx.message.author),
+            "sender":str(ctx.message.author.display_name),
             "message":msg
         })
         await util.send_check(self.bot, ctx.message, out)
@@ -58,7 +58,7 @@ class Admin(object):
             return await self.bot.say("You are not an administrator.")
         out = json.dumps({
             "type":"prison",
-            "sender":str(ctx.message.author),
+            "sender":str(ctx.message.author.display_name),
             "player":player,
             "ptime": ptime,
             "reason": reason
@@ -83,7 +83,7 @@ class Admin(object):
             return await self.bot.say("You are not an administrator.")
         out = json.dumps({
             "type":"kick",
-            "sender":str(ctx.message.author),
+            "sender":str(ctx.message.author.display_name),
             "player":player,
             "reason": reason
         })
@@ -98,7 +98,7 @@ class Admin(object):
             
         out = json.dumps({
             "type":"w",
-            "sender":str(ctx.message.author),
+            "sender":str(ctx.message.author.display_name),
             "player":player,
             "message": message
         })

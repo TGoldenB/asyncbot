@@ -31,7 +31,7 @@ class player(object):
 
         out = json.dumps({
             "type":"newb",
-            "sender":str(ctx.message.author),
+            "sender":str(ctx.message.author.display_name),
             "message":msg
         })
         await util.send_check(self.bot, ctx.message, out)

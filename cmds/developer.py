@@ -41,7 +41,7 @@ class Developer(object):
 
         out = json.dumps({
             "type":"dt",
-            "sender":str(ctx.message.author),
+            "sender":str(ctx.message.author.display_name),
             "message":msg
         })
         await util.send_check(self.bot, ctx.message, out)
