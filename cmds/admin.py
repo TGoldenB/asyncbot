@@ -10,27 +10,6 @@ from . import util
 """
     This file defines all Discord admin commands
 """
-adminRoles = {
-    "465874213324980244":"Administrator",
-    "roleid":"Probie",
-    "465896256972128266":"Junior",
-    "465887716354031624":"General",
-    "465896014130184192":"Senior",
-    "465894668094144512":"Head",
-    "465896094333927424":"Executive"
-}
-
-def is_admin(member : Member) -> str:
-    for role in member.roles:
-        if role.id in adminRoles:
-            return adminRoles[role.id]
-
-def is_probie(member: Member) -> str:
-    for role in member.roles:
-        if role.id in adminRoles:
-            if adminRoles[role.id] == "Probie":
-                return True
-    return False
 
 
 class Admin(object):
@@ -40,7 +19,7 @@ class Admin(object):
 
     @commands.command(pass_context=True)
     async def a(self, ctx, *, msg : str):
-        if not is_admin(ctx.message.author):
+        if not util.is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
 
         out = json.dumps({
@@ -63,7 +42,7 @@ class Admin(object):
     @commands.command(pass_context=True)
     async def prison(self, ctx,  player : str, ptime : int, *, reason : str):
 
-        if not is_admin(ctx.message.author):
+        if not util.is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
         out = json.dumps({
             "type":"prison",
@@ -78,12 +57,10 @@ class Admin(object):
 
     @commands.command(pass_context=True)
     async def getlogs(self, ctx, pattern : str):
-        if not is_admin(ctx.message.author):
+        admin_level = util.is_admin(ctx.message.author):
+        if admin_level is "Administrator" or not admin_level:
             return await self.bot.say("You are not an administrator.")
 
-        if is_probie(ctx.message.author):
-            return await self.bot.say("Probationary administrators cannot use logs.")
-            
         cmd = ['grep', '-m 3000', '-E', pattern, '/home/sarp/samp03z/server_log.txt']
         with open('./files/log.txt', 'wb') as logf:
             subprocess.Popen(cmd, stdout=logf, shell=False) #shell=False to avoid shell injection
@@ -95,7 +72,7 @@ class Admin(object):
     @commands.command(pass_context=True)
     async def kick(self, ctx,  player : str, *, reason : str):
         
-        if not is_admin(ctx.message.author):
+        if not util.is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
         out = json.dumps({
             "type":"kick",
@@ -109,7 +86,7 @@ class Admin(object):
     @commands.command(pass_context=True)
     async def w(self, ctx,  player : str, *, message : str):
         
-        if not is_admin(ctx.message.author):
+        if not util.is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
             
         out = json.dumps({

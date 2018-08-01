@@ -8,24 +8,7 @@ from . import util
 """
     This file defines all Discord admin commands
 """
-playerRoles = {
-    "465874370904981514":"Helper"
-}
 
-adminRole =  "465874213324980244"
-
-def is_helper(member : Member) -> bool:
-    for role in member.roles:
-        if role.id in playerRoles:
-            if playerRoles[role.id] == "Helper":
-                return True
-    return False
-
-def is_admin(member: Member) -> bool:
-    for role in member.roles:
-        if role.id == adminRole:
-            return True
-    return False
 
 class Player(object):
 
@@ -34,8 +17,8 @@ class Player(object):
 
     @commands.command(pass_context=True)
     async def newb(self, ctx, *, msg : str):
-        if not is_helper(ctx.message.author):
-            if not is_admin(ctx.message.author):
+        if not util.is_helper(ctx.message.author):
+            if not util.is_admin(ctx.message.author):
                 return await self.bot.say("You are not a helper.")
 
         out = json.dumps({
