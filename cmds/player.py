@@ -19,7 +19,7 @@ def is_helper(member : Member) -> bool:
                 return True
     return False
 
-class player(object):
+class Player(object):
 
     def __init__(self, bot):
         self.bot = bot
