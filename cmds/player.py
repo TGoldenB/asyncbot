@@ -48,4 +48,4 @@ class Player(object):
 
 # this is important, this basically creates a new object of Developer
 def setup(bot):
-    bot.add_cog(player(bot))
+    bot.add_cog(Player(bot))
