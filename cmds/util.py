@@ -24,7 +24,6 @@ def is_admin(member : Member) -> str:
     for role in member.roles:
         if role.id in adminRoles:
             return adminRoles[role.id]
-    return False
 
 def is_helper(member : Member) -> bool:
     for role in member.roles:
