@@ -12,6 +12,7 @@ from . import util
 """
 adminRoles = {
     "465874213324980244":"Administrator",
+    "roleid":"Probie",
     "465896256972128266":"Junior",
     "465887716354031624":"General",
     "465896014130184192":"Senior",
@@ -23,6 +24,13 @@ def is_admin(member : Member) -> str:
     for role in member.roles:
         if role.id in adminRoles:
             return adminRoles[role.id]
+
+def is_probie(member: Member) -> str:
+    for role in member.roles:
+        if role.id in adminRoles:
+            if adminRoles[role.id] == "Probie":
+                return True
+    return False
 
 
 class Admin(object):
@@ -72,6 +80,9 @@ class Admin(object):
     async def getlogs(self, ctx, pattern : str):
         if not is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
+
+        if is_probie(ctx.message.author):
+            return await self.bot.say("Probationary administrators cannot use logs.")
             
         cmd = ['grep', '-m 3000', '-E', pattern, '/home/sarp/samp03z/server_log.txt']
         with open('./files/log.txt', 'wb') as logf:
