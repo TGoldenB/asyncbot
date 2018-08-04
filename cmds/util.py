@@ -49,23 +49,9 @@ def is_admin(author: Member) -> str:
     return highest_name
 
 
-def is_helper(author: Member) -> bool:
+def has_role(author: Member, role_id: str):
     for role in author.roles:
-        if role.id == helper_role:
-            return True
-    return False
-
-
-def is_dev(author: Member) -> bool:
-    for role in author.roles:
-        if role.id == dev_role:
-            return True
-    return False
-
-
-def is_tester(author: Member) -> bool:
-    for role in author.roles:
-        if role.id == tester_role:
+        if role.id == role_id:
             return True
     return False
 
