@@ -45,5 +45,8 @@ async def on_ready():
     server.get_server().start()
 
 
-
-bot.run(settings.BOT_TOKEN)
+while True:
+    try:
+        bot.loop.run_until_complete(bot.start(settings.BOT_TOKEN))
+    except BaseException:
+        time.sleep(2)

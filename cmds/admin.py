@@ -57,7 +57,7 @@ class Admin(object):
 
     @commands.command(pass_context=True)
     async def getlogs(self, ctx, pattern : str):
-        admin_level = util.is_admin(ctx.message.author):
+        admin_level = util.is_admin(ctx.message.author)
         if admin_level is "Administrator" or not admin_level:
             return await self.bot.say("You are not an administrator.")
 

@@ -1,4 +1,5 @@
 import discord
+from discord import Member
 from server import server
 
 """
