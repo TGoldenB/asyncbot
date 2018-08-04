@@ -58,7 +58,7 @@ class Admin(object):
     @commands.command(pass_context=True)
     async def getlogs(self, ctx, pattern : str):
         admin_level = util.is_admin(ctx.message.author)
-        if admin_level is "Administrator" or not admin_level:
+        if admin_level is "Probie" or not admin_level:
             return await self.bot.say("You are not an administrator.")
 
         cmd = ['grep', '-m 3000', '-E', pattern, '/home/sarp/samp03z/server_log.txt']

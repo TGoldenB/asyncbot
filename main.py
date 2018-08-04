@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from server import server, settings
 import sys, traceback, logging
+import time
 
 # import defined responses (response_type)
 import requests
