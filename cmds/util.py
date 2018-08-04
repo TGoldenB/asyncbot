@@ -49,7 +49,7 @@ def is_admin(author: Member) -> str:
     return highest_name
 
 
-def has_role(author: Member, role_id: str):
+def has_role(author: Member, role_id: str) -> bool:
     for role in author.roles:
         if role.id == role_id:
             return True
