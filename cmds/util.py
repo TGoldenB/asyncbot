@@ -6,6 +6,72 @@ from server import server
     This file contains helper functions, used in several command definitions for Discord.
 """
 
+# Dictionary containing all command info, processed through kwargs.
+commands = {
+    # Player cog commands
+    'player': {
+        'whoareyou': {
+            'brief': 'Who am I?',
+            'help': 'USAGE: !whoareyou',
+        },
+
+        'newb': {
+            'brief': 'Send a message in /newb.',
+            'help': 'USAGE: !newb [message]',
+            'pass_context': True
+        }
+    },
+
+    # Admin cog commands
+    'admin': {
+        'a': {
+            'brief': 'Send a message in /a.',
+            'help': 'USAGE: !a [message]',
+            'pass_context': True
+        },
+
+        'admins': {
+            'brief': 'List all online administrators.',
+            'help': 'USAGE: !admins',
+            'pass_context': True
+        },
+
+        'prison': {
+            'brief': 'Prison a player.',
+            'help': 'USAGE: !prison [id/name] [time(minutes)] [reason]',
+            'pass_context': True
+        },
+
+        'getlogs': {
+            'brief': 'Gather server logs of a specific phrase.',
+            'help': 'USAGE: !getlogs [phrase]',
+            'descrption': 'Surround in "" if there are spaces in the phrase',
+            'aliases': ['gl'],
+            'pass_context': True
+        },
+
+        'kick': {
+            'brief': 'Kick a player.',
+            'help': 'USAGE: !kick [id/name] [reason]',
+            'pass_context': True
+        },
+
+        'w': {
+            'brief': 'Whisper a player.',
+            'help': 'USAGE: !w [id/name] [message]',
+            'pass_context': True
+        }
+    },
+
+    # Developer cog commands
+    'developer': {
+        'dt': {
+            'brief': '',
+            'help': '',  # TODO: Add help info (unsure what this command does)
+            'pass_context': True
+        }
+    }
+}
 
 admin_roles = {
     "465896094333927424": "Executive",

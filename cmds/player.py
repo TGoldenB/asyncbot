@@ -1,3 +1,4 @@
+from os.path import basename, splitext
 from discord.ext.commands import command, Context
 import json
 
@@ -7,18 +8,22 @@ from . import util
     This file defines all Discord player commands
 """
 
+base_name = basename(__file__)
+file_name = splitext(base_name)[0]
+commands = util.commands[file_name]
+
 
 class Player(object):
 
     def __init__(self, bot):
         self.bot = bot
 
-    @command()
+    @command(**commands['whoareyou'])
     async def whoareyou(self):
         await self.bot.say(
             "I am S-k-y-n-e-t. I will destroy the Sarpian race. Really though, I will fulfill your in-game demands.")
 
-    @command(pass_context=True)
+    @command(**commands['newb'])
     async def newb(self, ctx: Context, *, msg: str):
         if not util.has_role(ctx.message.author, util.helper_role):
             if not util.is_admin(ctx.message.author):

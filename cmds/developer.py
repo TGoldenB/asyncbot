@@ -1,3 +1,4 @@
+from os.path import basename, splitext
 from discord.ext.commands import command, Context
 import json
 
@@ -7,13 +8,17 @@ from . import util
     This file defines all Discord developer commands
 """
 
+base_name = basename(__file__)
+file_name = splitext(base_name)[0]
+commands = util.commands[file_name]
+
 
 class Developer(object):
 
     def __init__(self, bot):
         self.bot = bot
 
-    @command(pass_context=True)
+    @command(**commands['dt'])
     async def dt(self, ctx: Context, *, msg: str):
         if not util.has_role(ctx.message.author, util.dev_role) or not util.has_role(ctx.message.author, util.tester_role):
             return await self.bot.say("You are not a developer.")
@@ -23,6 +28,7 @@ class Developer(object):
             "sender": str(ctx.message.author.display_name),
             "message": msg
         })
+
         await util.send_check(self.bot, ctx.message, out)
 
 
