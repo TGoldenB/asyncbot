@@ -66,8 +66,8 @@ commands = {
     # Developer cog commands
     'developer': {
         'dt': {
-            'brief': '',
-            'help': '',  # TODO: Add help info (unsure what this command does)
+            'brief': 'Send a message in /dt.',
+            'help': 'USAGE: !dt [message]',
             'pass_context': True
         }
     }
@@ -93,9 +93,11 @@ admin_ranks = {
     "Administrator": 0
 }
 
-helper_role = "465874370904981514"
-dev_role = "465874671733309440"
-tester_role = "465874643337740290"
+
+class Role:
+    HELPER = '465874370904981514'
+    DEVELOPER = '465874671733309440'
+    TESTER = '465874643337740290'
 
 
 def is_admin(author: Member) -> str:

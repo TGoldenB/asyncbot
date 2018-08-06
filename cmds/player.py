@@ -25,7 +25,7 @@ class Player(object):
 
     @command(**commands['newb'])
     async def newb(self, ctx: Context, *, msg: str):
-        if not util.has_role(ctx.message.author, util.helper_role):
+        if not util.has_role(ctx.message.author, util.Role.HELPER):
             if not util.is_admin(ctx.message.author):
                 return await self.bot.say("You are not a helper.")
 

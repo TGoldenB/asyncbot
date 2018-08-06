@@ -20,7 +20,7 @@ class Developer(object):
 
     @command(**commands['dt'])
     async def dt(self, ctx: Context, *, msg: str):
-        if not util.has_role(ctx.message.author, util.dev_role) or not util.has_role(ctx.message.author, util.tester_role):
+        if not util.has_role(ctx.message.author, util.Role.DEVELOPER) or not util.has_role(ctx.message.author, util.Role.TESTER):
             return await self.bot.say("You are not a developer.")
 
         out = json.dumps({
