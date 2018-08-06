@@ -24,6 +24,8 @@ class Admin(object):
     async def a(self, ctx: Context, *, msg: str):
         if not util.is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
+        if not util.in_section(ctx.message.channel.id, util.Channel.SECTION_ADMIN):
+            return await self.bot.say("You must use this command in the _ADMINISTRATORS_ section.")
 
         out = json.dumps({
             "type": "asay",
@@ -48,6 +50,8 @@ class Admin(object):
     async def prison(self, ctx: Context,  player: str, ptime: int, *, reason: str):
         if not util.is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
+        if ctx.message.channel.id != util.Channel.COMMANDS:
+            return await self.bot.say("You must use this command in the #commands channel.")
 
         out = json.dumps({
             "type": "prison",
@@ -61,12 +65,13 @@ class Admin(object):
 
     @command(**commands['getlogs'])
     async def getlogs(self, ctx: Context, pattern: str):
-
         admin_level = util.is_admin(ctx.message.author)
         if admin_level is "Probie":
             return await self.bot.say("Probationary admins cannot use this feature.")
         if not admin_level:
             return await self.bot.say("You are not an administrator.")
+        if ctx.message.channel.id != util.Channel.COMMANDS:
+            return await self.bot.say("You must use this command in the #commands channel.")
 
         cmd = ['grep', '-m 3000', '-E', pattern, '/home/sarp/samp03z/server_log.txt']
         with open('./files/log.txt', 'wb') as logf:
@@ -79,6 +84,8 @@ class Admin(object):
     async def kick(self, ctx: Context,  player: str, *, reason: str):
         if not util.is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
+        if not util.in_section(ctx.message.channel.id, util.Channel.SECTION_ADMIN + util.Channel.SECTION_HELPERS):
+            return await self.bot.say("You must use this command in the _ADMINISTRATORS_ or _HELPERS_ section.")
 
         out = json.dumps({
             "type": "kick",
@@ -93,6 +100,8 @@ class Admin(object):
     async def w(self, ctx: Context,  player: str, *, message: str):
         if not util.is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
+        if not util.in_section(ctx.message.channel.id, util.Channel.SECTION_ADMIN + util.Channel.SECTION_HELPERS):
+            return await self.bot.say("You must use this command in the _ADMINISTRATORS_ or _HELPERS_ section.")
 
         out = json.dumps({
             "type": "w",
