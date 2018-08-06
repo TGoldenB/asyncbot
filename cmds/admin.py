@@ -24,7 +24,7 @@ class Admin(object):
     async def a(self, ctx: Context, *, msg: str):
         if not util.is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
-        if not util.in_section(ctx.message.channel.id, util.Channel.SECTION_ADMIN):
+        if not util.in_section(ctx.message.channel.id, util.Section.ADMINISTRATORS):
             return await self.bot.say("You must use this command in the _ADMINISTRATORS_ section.")
 
         out = json.dumps({
@@ -84,7 +84,7 @@ class Admin(object):
     async def kick(self, ctx: Context,  player: str, *, reason: str):
         if not util.is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
-        if not util.in_section(ctx.message.channel.id, util.Channel.SECTION_ADMIN + util.Channel.SECTION_HELPERS):
+        if not util.in_section(ctx.message.channel.id, util.Section.ADMINISTRATORS + util.Section.HELPERS):
             return await self.bot.say("You must use this command in the _ADMINISTRATORS_ or _HELPERS_ section.")
 
         out = json.dumps({
@@ -100,7 +100,7 @@ class Admin(object):
     async def w(self, ctx: Context,  player: str, *, message: str):
         if not util.is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
-        if not util.in_section(ctx.message.channel.id, util.Channel.SECTION_ADMIN + util.Channel.SECTION_HELPERS):
+        if not util.in_section(ctx.message.channel.id, util.Section.ADMINISTRATORS + util.Section.HELPERS):
             return await self.bot.say("You must use this command in the _ADMINISTRATORS_ or _HELPERS_ section.")
 
         out = json.dumps({
