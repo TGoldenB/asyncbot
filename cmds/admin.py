@@ -22,7 +22,7 @@ class Admin(object):
 
     @command(**commands['a'])
     async def a(self, ctx: Context, *, msg: str):
-        if not util.is_admin(ctx.message.author):
+        if not util.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
         if not util.in_section(ctx.message.channel.id, util.Section.ADMINISTRATORS):
             return await self.bot.say("You must use this command in the _ADMINISTRATORS_ section.")
@@ -48,7 +48,7 @@ class Admin(object):
 
     @command(**commands['prisons'])
     async def prison(self, ctx: Context,  player: str, ptime: int, *, reason: str):
-        if not util.is_admin(ctx.message.author):
+        if not util.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
         if ctx.message.channel.id != util.Channel.COMMANDS:
             return await self.bot.say("You must use this command in the #commands channel.")
@@ -65,7 +65,7 @@ class Admin(object):
 
     @command(**commands['getlogs'])
     async def getlogs(self, ctx: Context, pattern: str):
-        admin_level = util.is_admin(ctx.message.author)
+        admin_level = util.get_admin_rank(ctx.message.author)
         if admin_level is "Probie":
             return await self.bot.say("Probationary admins cannot use this feature.")
         if not admin_level:
@@ -82,7 +82,7 @@ class Admin(object):
 
     @command(**commands['kick'])
     async def kick(self, ctx: Context,  player: str, *, reason: str):
-        if not util.is_admin(ctx.message.author):
+        if not util.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
         if not util.in_section(ctx.message.channel.id, util.Section.ADMINISTRATORS + util.Section.HELPERS):
             return await self.bot.say("You must use this command in the _ADMINISTRATORS_ or _HELPERS_ section.")
@@ -98,7 +98,7 @@ class Admin(object):
 
     @command(**commands['w'])
     async def w(self, ctx: Context,  player: str, *, message: str):
-        if not util.is_admin(ctx.message.author):
+        if not util.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
         if not util.in_section(ctx.message.channel.id, util.Section.ADMINISTRATORS + util.Section.HELPERS):
             return await self.bot.say("You must use this command in the _ADMINISTRATORS_ or _HELPERS_ section.")

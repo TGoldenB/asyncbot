@@ -75,6 +75,7 @@ commands = {
 
 
 class Role:
+    # Admin roles have rank, id and level keys
     EXECUTIVE = {'rank': 'Executive', 'id': 465896094333927424, 'level': 99999}
     HEAD = {'rank': 'Head', 'id': 465894668094144512, 'level': 1337}
     SENIOR = {'rank': 'Senior', 'id': 465896014130184192, 'level': 4}
@@ -124,30 +125,55 @@ class Section:
     DEVELOPMENT: list[int] = [Channel.TESTERS, Channel.CONFIRMED_BUGS, Channel.BUGS, Channel.BOT_TODO]
 
 
-def is_admin(author: Member) -> str:
-    level = 0  # stores highest admin level
-    rank = None  # stores highest admin rank
-
+def get_admin_level(author: Member) -> int:
+    """
+    Returns the admin level of a Discord member or None if they are not an admin
+    """
+    level = -1  # level 0 is taken by the base role
     for role in author.roles:
         for admin_role in Role.ADMIN_ROLES:
             if role.id == admin_role['id']:
-                if rank is None:
-                    rank = admin_role['rank']
-
                 if admin_role['level'] > level:
+                    level = admin_role['level']
+    if level < 0:  # If not an admin
+        level = None
+    return level
+
+
+def get_admin_rank(author: Member) -> str:
+    """
+    Returns the rank name of a Discord member or None if they are not an admin
+    """
+    rank = None
+    level = 0
+    for role in author.roles:
+        for admin_role in Role.ADMIN_ROLES:
+            if role.id == admin_role['id']:
+                if admin_role['level'] > level:
+                    rank = admin_role['rank']
                     level = admin_role['level']
     return rank
 
 
 def has_role(author: Member, role_id_list: list) -> bool:
-    for role in author.roles:
-        for role_id in role_id_list:
+    """
+    Verifies a Discord member has any number of roles
+    """
+    for role_id in role_id_list:
+        has_current_role = False
+        for role in author.roles:
             if role.id == role_id:
-                return True
-    return False
+                has_current_role = True
+        if not has_current_role:
+            return False
+    return True
 
 
 def in_section(channel_id: str, section_list: list) -> bool:
+    """
+    Verifies a Discord message waas posted in the correct channel by taking in a Section class, a list of channels
+    in the Discord server
+    """
     for section_channel_id in section_list:
         if channel_id == section_channel_id:
             return True
