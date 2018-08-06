@@ -1,3 +1,4 @@
+from os.path import basename, splitext
 from discord.ext.commands import command, Context
 import json
 import subprocess
@@ -9,13 +10,17 @@ from . import util
     This file defines all Discord admin commands
 """
 
+base_name = basename(__file__)
+file_name = splitext(base_name)[0]
+commands = util.commands[file_name]
+
 
 class Admin(object):
 
     def __init__(self, bot):
         self.bot = bot
 
-    @command(pass_context=True)
+    @command(**commands['a'])
     async def a(self, ctx: Context, *, msg: str):
         if not util.is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
@@ -28,7 +33,7 @@ class Admin(object):
 
         await util.send_check(self.bot, ctx.message, out)
 
-    @command(pass_context=True)
+    @command(**commands['admins'])
     async def admins(self, ctx: Context):
         channel = ctx.message.channel
 
@@ -39,7 +44,7 @@ class Admin(object):
 
         await util.send_check(self.bot, ctx.message, out)
 
-    @command(pass_context=True)
+    @command(**commands['prisons'])
     async def prison(self, ctx: Context,  player: str, ptime: int, *, reason: str):
         if not util.is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
@@ -54,7 +59,7 @@ class Admin(object):
 
         await util.send_check(self.bot, ctx.message, out)
 
-    @command(pass_context=True)
+    @command(**commands['getlogs'])
     async def getlogs(self, ctx: Context, pattern: str):
 
         admin_level = util.is_admin(ctx.message.author)
@@ -70,7 +75,7 @@ class Admin(object):
         await asyncio.sleep(2)
         await self.bot.upload('./files/log.txt')
 
-    @command(pass_context=True)
+    @command(**commands['kick'])
     async def kick(self, ctx: Context,  player: str, *, reason: str):
         if not util.is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
@@ -84,7 +89,7 @@ class Admin(object):
 
         await util.send_check(self.bot, ctx.message, out)
 
-    @command(pass_context=True)
+    @command(**commands['w'])
     async def w(self, ctx: Context,  player: str, *, message: str):
         if not util.is_admin(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
