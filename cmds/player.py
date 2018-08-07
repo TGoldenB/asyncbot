@@ -3,6 +3,7 @@ from discord.ext.commands import command, Context
 import json
 
 from . import util
+from .command_info import commands
 
 """
     This file defines all Discord player commands
@@ -10,7 +11,7 @@ from . import util
 
 base_name = basename(__file__)
 file_name = splitext(base_name)[0]
-commands = util.commands[file_name]
+cog_commands = commands[file_name]
 
 
 class Player(object):
@@ -18,12 +19,12 @@ class Player(object):
     def __init__(self, bot):
         self.bot = bot
 
-    @command(**commands['whoareyou'])
+    @command(**cog_commands['whoareyou'])
     async def whoareyou(self):
         await self.bot.say(
             "I am S-k-y-n-e-t. I will destroy the Sarpian race. Really though, I will fulfill your in-game demands.")
 
-    @command(**commands['newb'])
+    @command(**cog_commands['newb'])
     async def newb(self, ctx: Context, *, msg: str):
         if not util.has_role(ctx.message.author, [util.Role.HELPER]):
             if not util.get_admin_rank(ctx.message.author):

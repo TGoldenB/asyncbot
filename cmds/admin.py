@@ -5,6 +5,7 @@ import subprocess
 import asyncio
 
 from . import util
+from .command_info import commands
 
 """
     This file defines all Discord admin commands
@@ -12,7 +13,7 @@ from . import util
 
 base_name = basename(__file__)
 file_name = splitext(base_name)[0]
-commands = util.commands[file_name]
+cog_commands = commands[file_name]
 
 
 class Admin(object):
@@ -20,7 +21,7 @@ class Admin(object):
     def __init__(self, bot):
         self.bot = bot
 
-    @command(**commands['a'])
+    @command(**cog_commands['a'])
     async def a(self, ctx: Context, *, msg: str):
         if not util.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
@@ -35,7 +36,7 @@ class Admin(object):
 
         await util.send_check(self.bot, ctx.message, out)
 
-    @command(**commands['admins'])
+    @command(**cog_commands['admins'])
     async def admins(self, ctx: Context):
         channel = ctx.message.channel
 
@@ -46,7 +47,7 @@ class Admin(object):
 
         await util.send_check(self.bot, ctx.message, out)
 
-    @command(**commands['prisons'])
+    @command(**cog_commands['prisons'])
     async def prison(self, ctx: Context,  player: str, ptime: int, *, reason: str):
         if not util.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
@@ -63,7 +64,7 @@ class Admin(object):
 
         await util.send_check(self.bot, ctx.message, out)
 
-    @command(**commands['getlogs'])
+    @command(**cog_commands['getlogs'])
     async def getlogs(self, ctx: Context, pattern: str):
         admin_level = util.get_admin_rank(ctx.message.author)
         if admin_level is "Probie":
@@ -80,7 +81,7 @@ class Admin(object):
         await asyncio.sleep(2)
         await self.bot.upload('./files/log.txt')
 
-    @command(**commands['kick'])
+    @command(**cog_commands['kick'])
     async def kick(self, ctx: Context,  player: str, *, reason: str):
         if not util.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
@@ -96,7 +97,7 @@ class Admin(object):
 
         await util.send_check(self.bot, ctx.message, out)
 
-    @command(**commands['w'])
+    @command(**cog_commands['w'])
     async def w(self, ctx: Context,  player: str, *, message: str):
         if not util.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")

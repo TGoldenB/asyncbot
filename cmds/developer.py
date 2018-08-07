@@ -3,6 +3,8 @@ from discord.ext.commands import command, Context
 import json
 
 from . import util
+from .command_info import commands
+
 
 """
     This file defines all Discord developer commands
@@ -10,7 +12,7 @@ from . import util
 
 base_name = basename(__file__)
 file_name = splitext(base_name)[0]
-commands = util.commands[file_name]
+cog_commands = commands[file_name]
 
 
 class Developer(object):
@@ -18,7 +20,7 @@ class Developer(object):
     def __init__(self, bot):
         self.bot = bot
 
-    @command(**commands['dt'])
+    @command(**cog_commands['dt'])
     async def dt(self, ctx: Context, *, msg: str):
         if not util.has_role(ctx.message.author, [util.Role.DEVELOPER, util.Role.TESTER]):
             return await self.bot.say("You are not a developer.")
