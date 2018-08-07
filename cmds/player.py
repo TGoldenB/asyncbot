@@ -26,8 +26,10 @@ class Player(object):
     @command(**commands['newb'])
     async def newb(self, ctx: Context, *, msg: str):
         if not util.has_role(ctx.message.author, [util.Role.HELPER]):
-            if not util.is_admin(ctx.message.author):
+            if not util.get_admin_rank(ctx.message.author):
                 return await self.bot.say("You are not a helper.")
+        if ctx.message.channel.id != util.Channel.NEWBIE:
+            return await self.bot.say("You must use this command in the #newbie channel.")
 
         out = json.dumps({
             "type": "newb",
