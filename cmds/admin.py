@@ -23,7 +23,7 @@ class Admin(object):
         self.bot = bot
 
     @command(**cog_commands['a'])
-    async def a(self, ctx: Context, *, msg: str):
+    async def a(self, ctx: Context, *, message: str):
         if not Role.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
         if not Section.in_section(ctx.message.channel.id, Section.ADMINISTRATORS):
@@ -32,7 +32,7 @@ class Admin(object):
         out = json.dumps({
             "type": "asay",
             "sender": str(ctx.message.author.display_name),
-            "message": msg
+            "message": message
         })
 
         await util.send_check(self.bot, ctx.message, out)
@@ -48,7 +48,7 @@ class Admin(object):
 
         await util.send_check(self.bot, ctx.message, out)
 
-    @command(**cog_commands['prisons'])
+    @command(**cog_commands['prison'])
     async def prison(self, ctx: Context,  player: str, ptime: int, *, reason: str):
         if not Role.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
@@ -83,8 +83,8 @@ class Admin(object):
         await self.bot.upload('./files/log.txt')
 
     @command(**cog_commands['getbanreason'])
-    async def getbanreason(self, ctx: Context, name: str):
-        is_rp_name = Pattern.contains_pattern(Pattern.RP_NAME_PATTERN, name)
+    async def getbanreason(self, ctx: Context, player: str):
+        is_rp_name = Pattern.contains_pattern(Pattern.RP_NAME_PATTERN, player)
         if not Role.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
         if ctx.message.channel.id != Channel.COMMANDS:
@@ -94,7 +94,7 @@ class Admin(object):
 
         out = json.dump({
             "type": "getbanreason",
-            "name": name
+            "name": player
         })
 
         await util.send_check(self.bot, ctx.message, out)

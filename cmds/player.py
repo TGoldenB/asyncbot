@@ -26,7 +26,7 @@ class Player(object):
             "I am S-k-y-n-e-t. I will destroy the Sarpian race. Really though, I will fulfill your in-game demands.")
 
     @command(**cog_commands['newb'])
-    async def newb(self, ctx: Context, *, msg: str):
+    async def newb(self, ctx: Context, *, message: str):
         if not Role.has_role(ctx.message.author, [Role.HELPER]) and not Role.get_admin_rank(ctx.message.author):
                 return await self.bot.say("You are not a helper.")
         if ctx.message.channel.id != Channel.NEWBIE:
@@ -35,7 +35,7 @@ class Player(object):
         out = json.dumps({
             "type": "newb",
             "sender": str(ctx.message.author.display_name),
-            "message": msg
+            "message": message
         })
 
         await util.send_check(self.bot, ctx.message, out)

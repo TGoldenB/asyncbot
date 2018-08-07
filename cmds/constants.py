@@ -108,11 +108,11 @@ class Channel:
 class Section:
 
     # Lists of channel IDs for each section
-    HELP_GENERAL: list[int] = [Channel.GENERAL]
-    ADMINISTRATORS: list[int] = [Channel.DISCUSSION_ADMIN, Channel.CHAT, Channel.COMMANDS]
-    HELPERS: list[int] = [Channel.DISCUSSION_HELPER, Channel.NEWBIE]
-    PUBLIC_SERVICES: list[int] = [Channel.GOVERNMENT, Channel.NEWS_AGENCY]
-    DEVELOPMENT: list[int] = [Channel.TESTERS, Channel.CONFIRMED_BUGS, Channel.BUGS, Channel.BOT_TODO]
+    HELP_GENERAL: list = [Channel.GENERAL]
+    ADMINISTRATORS: list = [Channel.DISCUSSION_ADMIN, Channel.CHAT, Channel.COMMANDS]
+    HELPERS: list = [Channel.DISCUSSION_HELPER, Channel.NEWBIE]
+    PUBLIC_SERVICES: list = [Channel.GOVERNMENT, Channel.NEWS_AGENCY]
+    DEVELOPMENT: list = [Channel.TESTERS, Channel.CONFIRMED_BUGS, Channel.BUGS, Channel.BOT_TODO]
 
     @staticmethod
     def in_section(channel_id: str, section_list: list) -> bool:

@@ -22,7 +22,7 @@ class Developer(object):
         self.bot = bot
 
     @command(**cog_commands['dt'])
-    async def dt(self, ctx: Context, *, msg: str):
+    async def dt(self, ctx: Context, *, message: str):
         if not Role.has_role(ctx.message.author, [Role.DEVELOPER, Role.TESTER]):
             return await self.bot.say("You are not a developer.")
         if not Section.in_section(ctx.message.channel.id, Section.DEVELOPMENT):
@@ -31,7 +31,7 @@ class Developer(object):
         out = json.dumps({
             "type": "dt",
             "sender": str(ctx.message.author.display_name),
-            "message": msg
+            "message": message
         })
 
         await util.send_check(self.bot, ctx.message, out)

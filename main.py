@@ -19,6 +19,7 @@ cmd_files = [
 description = """
 Discord-SARP Connector\n
 Author: dy1zan
+Contributors: Gold, Kyle Young
 """
 bot = commands.Bot(command_prefix='!', description=description, shard_count=10, max_messages=30)
 
@@ -29,6 +30,7 @@ if __name__ == '__main__':
         except Exception as e:
             print("Failed to load extension {1}." % extension, file=sys.stderr)
             traceback.print_exc()
+
 
 @bot.event
 async def on_ready():

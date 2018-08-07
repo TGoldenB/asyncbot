@@ -225,6 +225,23 @@ stock Discord:GetTimeString() {
     new h, m, s;
     gettime(h, m, s);
     h = FixHour(h);
-    format(string, sizeof string, "%d:%d:%d", h, m, s);
+    if (h <= 9 || m <= 9 || s <= 9) {
+        if (h <= 9) {
+            valstr(h, h)
+            strcat("0", h)
+        }
+        if (m <= 9) {
+            valstr(m, m)
+            strcat("0", m)
+        }
+        if (s <= 9) {
+            valstr(s, s)
+            strcat("0", s)
+         }
+        }
+        format(string, sizeof string, "%s:%s:%s", h, m, s);
+    } else {
+        format(string, sizeof string, "%d:%d:%d", h, m, s);
+    }
     return string;
 }
