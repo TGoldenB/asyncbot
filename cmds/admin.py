@@ -1,6 +1,7 @@
 from os.path import basename, splitext
 from discord.ext.commands import command, Context
 import json
+import re
 import subprocess
 import asyncio
 
@@ -14,6 +15,8 @@ from .command_info import commands
 base_name = basename(__file__)
 file_name = splitext(base_name)[0]
 cog_commands = commands[file_name]
+
+rp_name_pattern = re.compile("[A-Z][a-z]+_[A-Z].*") # Capital, any amount of non cap, underscore, capital, anything
 
 
 class Admin(object):
@@ -80,6 +83,23 @@ class Admin(object):
 
         await asyncio.sleep(2)
         await self.bot.upload('./files/log.txt')
+
+    @command(**cog_commands['getbanreason'])
+    async def getbanreason(self, ctx: Context, name: str):
+        rp_name = bool(re.search(rp_name_pattern, name))
+        if not util.get_admin_rank(ctx.message.author):
+            return await self.bot.say("You are not an administrator.")
+        if ctx.message.channel.id != util.Channel.COMMANDS:
+            return await self.bot.say("You must use this command in the #commands channel.")
+        if not rp_name:
+            return await self.bot.say("Please use the format: Firstname_Lastname.")
+
+        out = json.dump({
+            "type": "getbanreason",
+            "name": name
+        })
+
+        await util.send_check(self.bot, ctx.message, out)
 
     @command(**cog_commands['kick'])
     async def kick(self, ctx: Context,  player: str, *, reason: str):

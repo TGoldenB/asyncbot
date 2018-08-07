@@ -48,8 +48,16 @@ commands = {
         'getlogs': {
             'brief': 'Gather server logs of a specific phrase.',
             'help': 'USAGE: !getlogs [phrase]',
-            'descrption': 'Surround in "" if there are spaces in the phrase',
+            'descrption': 'Surround in "" if there are spaces in the phrase\nAlias: !gl',
             'aliases': ['gl'],
+            'pass_context': True
+        },
+
+        'getbanreason': {
+            'brief': 'Get the ban reason of a player',
+            'help': 'USAGE: !getbanreason [firstname_lastname]',
+            'description': 'Alias: !gbr',
+            'aliases': ['gbr'],
             'pass_context': True
         },
 
