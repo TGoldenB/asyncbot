@@ -1,12 +1,24 @@
+import re
+from discord import Member
+
 """
 Constants split into classes. Admin roles have extra information for rank comparison. Channels are combined into
 lists in the Section class.
-
-NOTE: This file can be accessed through importing util, which we do in every cog.
 """
 
 
+class Pattern:
+
+    RP_NAME_PATTERN = re.compile("[A-Z][a-z]+_[A-Z].*")  # Capital, any amount of non cap, underscore, capital, anything
+
+    @staticmethod
+    def contains_pattern(pattern, phrase):
+        contains = bool(re.search(pattern, phrase))
+        return contains
+
+
 class Role:
+
     # Admin roles have rank, id and level keys
     EXECUTIVE = {'rank': 'Executive', 'id': 465896094333927424, 'level': 99999}
     HEAD = {'rank': 'Head', 'id': 465894668094144512, 'level': 1337}
@@ -21,8 +33,53 @@ class Role:
     DEVELOPER = '465874671733309440'
     TESTER = '465874643337740290'
 
+    @staticmethod
+    def has_role(author: Member, role_id_list: list) -> bool:
+        """
+        Verifies a Discord member has any number of roles in a list
+        """
+        for role_id in role_id_list:
+            has_current_role = False
+            for role in author.roles:
+                if role.id == role_id:
+                    has_current_role = True
+            if not has_current_role:
+                return False
+        return True
+
+    @staticmethod
+    def get_admin_level(author: Member) -> int:
+        """
+        Returns the admin level of a Discord member or None if they are not an admin
+        """
+        level = -1  # level 0 is taken by the base role
+        for role in author.roles:
+            for admin_role in Role.ADMIN_ROLES:
+                if role.id == admin_role['id']:
+                    if admin_role['level'] > level:
+                        level = admin_role['level']
+        if level < 0:  # If not an admin
+            level = None
+        return level
+
+    @staticmethod
+    def get_admin_rank(author: Member) -> str:
+        """
+        Returns the rank name of a Discord member or None if they are not an admin
+        """
+        rank = None
+        level = 0
+        for role in author.roles:
+            for admin_role in Role.ADMIN_ROLES:
+                if role.id == admin_role['id']:
+                    if admin_role['level'] > level:
+                        rank = admin_role['rank']
+                        level = admin_role['level']
+        return rank
+
 
 class Channel:
+
     # IDs for every channel in the server
 
     # HELP/GENERAL
@@ -49,9 +106,21 @@ class Channel:
 
 
 class Section:
+
     # Lists of channel IDs for each section
     HELP_GENERAL: list[int] = [Channel.GENERAL]
     ADMINISTRATORS: list[int] = [Channel.DISCUSSION_ADMIN, Channel.CHAT, Channel.COMMANDS]
     HELPERS: list[int] = [Channel.DISCUSSION_HELPER, Channel.NEWBIE]
     PUBLIC_SERVICES: list[int] = [Channel.GOVERNMENT, Channel.NEWS_AGENCY]
     DEVELOPMENT: list[int] = [Channel.TESTERS, Channel.CONFIRMED_BUGS, Channel.BUGS, Channel.BOT_TODO]
+
+    @staticmethod
+    def in_section(channel_id: str, section_list: list) -> bool:
+        """
+        Verifies a Discord message was posted in the correct channel by taking in a list constant from
+        the Section class, a list of channels in the Discord server
+        """
+        for section_channel_id in section_list:
+            if channel_id == section_channel_id:
+                return True
+        return False

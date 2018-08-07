@@ -4,6 +4,7 @@ import json
 
 from . import util
 from .command_info import commands
+from .constants import Channel, Role
 
 """
     This file defines all Discord player commands
@@ -26,10 +27,9 @@ class Player(object):
 
     @command(**cog_commands['newb'])
     async def newb(self, ctx: Context, *, msg: str):
-        if not util.has_role(ctx.message.author, [util.Role.HELPER]):
-            if not util.get_admin_rank(ctx.message.author):
+        if not Role.has_role(ctx.message.author, [Role.HELPER]) and not Role.get_admin_rank(ctx.message.author):
                 return await self.bot.say("You are not a helper.")
-        if ctx.message.channel.id != util.Channel.NEWBIE:
+        if ctx.message.channel.id != Channel.NEWBIE:
             return await self.bot.say("You must use this command in the #newbie channel.")
 
         out = json.dumps({

@@ -4,6 +4,7 @@ import json
 
 from . import util
 from .command_info import commands
+from .constants import Section, Role
 
 
 """
@@ -22,9 +23,9 @@ class Developer(object):
 
     @command(**cog_commands['dt'])
     async def dt(self, ctx: Context, *, msg: str):
-        if not util.has_role(ctx.message.author, [util.Role.DEVELOPER, util.Role.TESTER]):
+        if not Role.has_role(ctx.message.author, [Role.DEVELOPER, Role.TESTER]):
             return await self.bot.say("You are not a developer.")
-        if not util.in_section(ctx.message.channel.id, util.Section.DEVELOPMENT):
+        if not Section.in_section(ctx.message.channel.id, Section.DEVELOPMENT):
             return await self.bot.say("You must use this command in the _DEVELOPERS_ section.")
 
         out = json.dumps({

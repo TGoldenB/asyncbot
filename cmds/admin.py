@@ -1,12 +1,12 @@
 from os.path import basename, splitext
 from discord.ext.commands import command, Context
 import json
-import re
 import subprocess
 import asyncio
 
 from . import util
 from .command_info import commands
+from .constants import Channel, Role, Section, Pattern
 
 """
     This file defines all Discord admin commands
@@ -16,8 +16,6 @@ base_name = basename(__file__)
 file_name = splitext(base_name)[0]
 cog_commands = commands[file_name]
 
-rp_name_pattern = re.compile("[A-Z][a-z]+_[A-Z].*") # Capital, any amount of non cap, underscore, capital, anything
-
 
 class Admin(object):
 
@@ -26,9 +24,9 @@ class Admin(object):
 
     @command(**cog_commands['a'])
     async def a(self, ctx: Context, *, msg: str):
-        if not util.get_admin_rank(ctx.message.author):
+        if not Role.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
-        if not util.in_section(ctx.message.channel.id, util.Section.ADMINISTRATORS):
+        if not Section.in_section(ctx.message.channel.id, Section.ADMINISTRATORS):
             return await self.bot.say("You must use this command in the _ADMINISTRATORS_ section.")
 
         out = json.dumps({
@@ -52,9 +50,9 @@ class Admin(object):
 
     @command(**cog_commands['prisons'])
     async def prison(self, ctx: Context,  player: str, ptime: int, *, reason: str):
-        if not util.get_admin_rank(ctx.message.author):
+        if not Role.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
-        if ctx.message.channel.id != util.Channel.COMMANDS:
+        if ctx.message.channel.id != Channel.COMMANDS:
             return await self.bot.say("You must use this command in the #commands channel.")
 
         out = json.dumps({
@@ -69,12 +67,12 @@ class Admin(object):
 
     @command(**cog_commands['getlogs'])
     async def getlogs(self, ctx: Context, pattern: str):
-        admin_level = util.get_admin_rank(ctx.message.author)
+        admin_level = Role.get_admin_rank(ctx.message.author)
         if admin_level is "Probie":
             return await self.bot.say("Probationary admins cannot use this feature.")
         if not admin_level:
             return await self.bot.say("You are not an administrator.")
-        if ctx.message.channel.id != util.Channel.COMMANDS:
+        if ctx.message.channel.id != Channel.COMMANDS:
             return await self.bot.say("You must use this command in the #commands channel.")
 
         cmd = ['grep', '-m 3000', '-E', pattern, '/home/sarp/samp03z/server_log.txt']
@@ -86,12 +84,12 @@ class Admin(object):
 
     @command(**cog_commands['getbanreason'])
     async def getbanreason(self, ctx: Context, name: str):
-        rp_name = bool(re.search(rp_name_pattern, name))
-        if not util.get_admin_rank(ctx.message.author):
+        is_rp_name = Pattern.contains_pattern(Pattern.RP_NAME_PATTERN, name)
+        if not Role.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
-        if ctx.message.channel.id != util.Channel.COMMANDS:
+        if ctx.message.channel.id != Channel.COMMANDS:
             return await self.bot.say("You must use this command in the #commands channel.")
-        if not rp_name:
+        if not is_rp_name:
             return await self.bot.say("Please use the format: Firstname_Lastname.")
 
         out = json.dump({
@@ -103,9 +101,9 @@ class Admin(object):
 
     @command(**cog_commands['kick'])
     async def kick(self, ctx: Context,  player: str, *, reason: str):
-        if not util.get_admin_rank(ctx.message.author):
+        if not Role.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
-        if not util.in_section(ctx.message.channel.id, util.Section.ADMINISTRATORS + util.Section.HELPERS):
+        if not Section.in_section(ctx.message.channel.id, Section.ADMINISTRATORS + Section.HELPERS):
             return await self.bot.say("You must use this command in the _ADMINISTRATORS_ or _HELPERS_ section.")
 
         out = json.dumps({
@@ -119,9 +117,9 @@ class Admin(object):
 
     @command(**cog_commands['w'])
     async def w(self, ctx: Context,  player: str, *, message: str):
-        if not util.get_admin_rank(ctx.message.author):
+        if not Role.get_admin_rank(ctx.message.author):
             return await self.bot.say("You are not an administrator.")
-        if not util.in_section(ctx.message.channel.id, util.Section.ADMINISTRATORS + util.Section.HELPERS):
+        if not Section.in_section(ctx.message.channel.id, Section.ADMINISTRATORS + Section.HELPERS):
             return await self.bot.say("You must use this command in the _ADMINISTRATORS_ or _HELPERS_ section.")
 
         out = json.dumps({
