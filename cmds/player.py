@@ -27,14 +27,17 @@ class Player(object):
 
     @command(**cog_commands['newb'])
     async def newb(self, ctx: Context, *, message: str):
-        if not Role.has_role(ctx.message.author, [Role.HELPER]) and not Role.get_admin_rank(ctx.message.author):
+        author = ctx.message.author
+        channel = ctx.message.channel
+
+        if not Role.has_roles(ctx.message.author, [Role.HELPER]) and not Role.is_admin(author):
                 return await self.bot.say("You are not a helper.")
-        if ctx.message.channel.id != Channel.NEWBIE:
+        if channel.id != Channel.NEWBIE:
             return await self.bot.say("You must use this command in the #newbie channel.")
 
         out = json.dumps({
             "type": "newb",
-            "sender": str(ctx.message.author.display_name),
+            "sender": str(author.display_name),
             "message": message
         })
 
