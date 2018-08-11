@@ -77,12 +77,12 @@ class Admin(object):
         channel = ctx.message.channel
         rank = Role.get_rank(author)
 
-        if rank is "Probie":
-            return await self.bot.say("Probationary admins cannot use this feature.")
         if not Role.is_admin(author):
             return await self.bot.say("You are not an administrator.")
         if channel.id != Channel.COMMANDS:
             return await self.bot.say("You must use this command in the #commands channel.")
+        if rank is "Probie":
+            return await self.bot.say("Probationary admins cannot use this feature.")
 
         cmd = ['grep', '-m 3000', '-E', pattern, '/home/sarp/samp03z/server_log.txt']
         with open('./files/log.txt', 'wb') as logf:
@@ -104,7 +104,7 @@ class Admin(object):
         if not is_rp_name:
             return await self.bot.say("Please use the format: Firstname_Lastname.")
 
-        out = json.dump({
+        out = json.dumps({
             "type": "getbanreason",
             "name": player
         })
