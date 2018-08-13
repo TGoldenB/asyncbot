@@ -102,6 +102,8 @@ class Channel:
     TESTERS = '465874413267582986'
     CONFIRMED_BUGS = '471553508118626315'
     BUGS = '65879591656095754'
+    TODO = '467909781126905857'
+    DEVELOPERS = '465873842318082049'
     BOT_TODO = '466949031898382356'
 
 
@@ -111,7 +113,8 @@ class Section:
     ADMINISTRATORS = [Channel.DISCUSSION_ADMIN, Channel.CHAT, Channel.COMMANDS]
     HELPERS = [Channel.DISCUSSION_HELPER, Channel.NEWBIE]
     PUBLIC_SERVICES = [Channel.GOVERNMENT, Channel.NEWS_AGENCY]
-    DEVELOPMENT = [Channel.TESTERS, Channel.CONFIRMED_BUGS, Channel.BUGS, Channel.BOT_TODO]
+    DEVELOPMENT = [Channel.TESTERS, Channel.CONFIRMED_BUGS, Channel.BUGS, Channel.TODO, Channel.DEVELOPERS,
+                   Channel.BOT_TODO]
 
     @staticmethod
     def in_sections(channel_id: str, section_list: List[List[str]]) -> bool:
