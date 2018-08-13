@@ -1,12 +1,12 @@
-from os.path import basename, splitext
-from discord.ext.commands import command, Context
 import json
 import subprocess
 import asyncio
+from os.path import basename, splitext
+from discord.ext.commands import command, Context
 
 from . import util
 from .command_info import commands
-from .constants import Channel, Role, Section, Pattern
+from .constants import Channel, Role, Section, RePattern
 
 """
     This file defines all Discord admin commands
@@ -29,7 +29,7 @@ class Admin(object):
 
         if not Role.is_admin(author):
             return await self.bot.say("You are not an administrator.")
-        if not Section.in_section(channel.id, Section.ADMINISTRATORS):
+        if not Section.in_sections(channel.id, [Section.ADMINISTRATORS]):
             return await self.bot.say("You must use this command in the _ADMINISTRATORS_ section.")
 
         out = json.dumps({
@@ -95,7 +95,7 @@ class Admin(object):
     async def getbanreason(self, ctx: Context, player: str):
         author = ctx.message.author
         channel = ctx.message.channel
-        is_rp_name = Pattern.contains_pattern(Pattern.RP_NAME_PATTERN, player)
+        is_rp_name = RePattern.contains_pattern(RePattern.RP_NAME, player)
 
         if not Role.is_admin(author):
             return await self.bot.say("You are not an administrator.")
@@ -118,7 +118,7 @@ class Admin(object):
 
         if not Role.is_admin(author):
             return await self.bot.say("You are not an administrator.")
-        if not Section.in_section(channel.id, Section.ADMINISTRATORS + Section.HELPERS):
+        if not Section.in_sections(channel.id, [Section.ADMINISTRATORS, Section.HELPERS]):
             return await self.bot.say("You must use this command in the _ADMINISTRATORS_ or _HELPERS_ section.")
 
         out = json.dumps({
@@ -137,7 +137,7 @@ class Admin(object):
 
         if not Role.is_admin(author):
             return await self.bot.say("You are not an administrator.")
-        if not Section.in_section(channel.id, Section.ADMINISTRATORS + Section.HELPERS):
+        if not Section.in_sections(channel.id, [Section.ADMINISTRATORS, Section.HELPERS]):
             return await self.bot.say("You must use this command in the _ADMINISTRATORS_ or _HELPERS_ section.")
 
         out = json.dumps({

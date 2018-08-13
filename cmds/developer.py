@@ -25,7 +25,7 @@ class Developer(object):
     async def dt(self, ctx: Context, *, message: str):
         if not Role.has_roles(ctx.message.author, [Role.DEVELOPER, Role.TESTER]):
             return await self.bot.say("You are not a developer.")
-        if not Section.in_section(ctx.message.channel.id, Section.DEVELOPMENT):
+        if not Section.in_sections(ctx.message.channel.id, [Section.DEVELOPMENT]):
             return await self.bot.say("You must use this command in the _DEVELOPERS_ section.")
 
         out = json.dumps({

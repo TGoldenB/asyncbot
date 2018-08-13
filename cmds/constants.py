@@ -1,6 +1,6 @@
 import re
 from discord import Member
-from typing import Union  # Multiple type hints
+from typing import Union, List, Dict, Pattern  # Type hints
 
 """
 Constants split into classes. Admin roles have extra information for rank comparison. Channels are combined into
@@ -8,18 +8,17 @@ lists in the Section class.
 """
 
 
-class Pattern:
-
-    RP_NAME_PATTERN = re.compile("[A-Z][a-z]+_[A-Z].*")  # Capital, any amount of non cap, underscore, capital, anything
+class RePattern:
+    # RP_NAME = re.compile("[A-Z][a-z]+_[A-Z].*")  # Capital, any amount of non cap, underscore, capital, anything
+    RP_NAME = re.compile("^[A-Z][a-z]+_[A-Z]{1,2}([a-z][A-Z])?[a-z]+(_[A-Z]{1,2}([a-z][A-Z])?[a-z]+)?$")
 
     @staticmethod
-    def contains_pattern(pattern, phrase):
+    def contains_pattern(pattern: Pattern, phrase: Union[str, int]):
         contains = bool(re.search(pattern, phrase))
         return contains
 
 
 class Role:
-
     EXECUTIVE = {'name': 'Executive', 'id': 465896094333927424, 'level': 99999}
     HEAD = {'name': 'Head', 'id': 465894668094144512, 'level': 1337}
     SENIOR = {'name': 'Senior', 'id': 465896014130184192, 'level': 4}
@@ -34,7 +33,7 @@ class Role:
     TESTER = {'name': 'Tester', 'id': 465874643337740290, 'level': -1}
 
     @staticmethod
-    def has_roles(author: Member, role_list: list) -> bool:
+    def has_roles(author: Member, role_list: List[Dict[str, Union[str, int]]]) -> bool:
         for role in role_list:
             has_current_role = False
             for author_role in author.roles:
@@ -83,7 +82,6 @@ class Role:
 
 
 class Channel:
-
     # IDs for every channel in the server
     # HELP/GENERAL
     GENERAL = 465873343518736397
@@ -109,21 +107,21 @@ class Channel:
 
 
 class Section:
-
     # Lists of channel IDs in each section
-    HELP_GENERAL: list = [Channel.GENERAL]
-    ADMINISTRATORS: list = [Channel.DISCUSSION_ADMIN, Channel.CHAT, Channel.COMMANDS]
-    HELPERS: list = [Channel.DISCUSSION_HELPER, Channel.NEWBIE]
-    PUBLIC_SERVICES: list = [Channel.GOVERNMENT, Channel.NEWS_AGENCY]
-    DEVELOPMENT: list = [Channel.TESTERS, Channel.CONFIRMED_BUGS, Channel.BUGS, Channel.BOT_TODO]
+    HELP_GENERAL = [Channel.GENERAL]
+    ADMINISTRATORS = [Channel.DISCUSSION_ADMIN, Channel.CHAT, Channel.COMMANDS]
+    HELPERS = [Channel.DISCUSSION_HELPER, Channel.NEWBIE]
+    PUBLIC_SERVICES = [Channel.GOVERNMENT, Channel.NEWS_AGENCY]
+    DEVELOPMENT = [Channel.TESTERS, Channel.CONFIRMED_BUGS, Channel.BUGS, Channel.BOT_TODO]
 
     @staticmethod
-    def in_section(channel_id: str, section_list: list) -> bool:
+    def in_sections(channel_id: int, section_list: List[List[int]]) -> bool:
         """
-        Verifies a Discord message was posted in the correct channel by taking in a list constant from
-        the Section class, a list of channels in the Discord server
+        Verifies a Discord message was posted in the correct section(s) by taking in a list of lists containing
+        channel IDs
         """
-        for section_channel_id in section_list:
-            if channel_id == section_channel_id:
-                return True
+        for section in section_list:
+            for section_channel_id in section:
+                if channel_id == section_channel_id:
+                    return True
         return False
