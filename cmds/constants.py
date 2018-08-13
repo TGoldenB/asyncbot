@@ -9,28 +9,27 @@ lists in the Section class.
 
 
 class RePattern:
-    # RP_NAME = re.compile("[A-Z][a-z]+_[A-Z].*")  # Capital, any amount of non cap, underscore, capital, anything
     RP_NAME = re.compile("^[A-Z][a-z]+_[A-Z]{1,2}([a-z][A-Z])?[a-z]+(_[A-Z]{1,2}([a-z][A-Z])?[a-z]+)?$")
 
     @staticmethod
-    def contains_pattern(pattern: Pattern, phrase: Union[str, int]):
+    def contains_pattern(pattern: Pattern, phrase: str):
         contains = bool(re.search(pattern, phrase))
         return contains
 
 
 class Role:
-    EXECUTIVE = {'name': 'Executive', 'id': 465896094333927424, 'level': 99999}
-    HEAD = {'name': 'Head', 'id': 465894668094144512, 'level': 1337}
-    SENIOR = {'name': 'Senior', 'id': 465896014130184192, 'level': 4}
-    GENERAL = {'name': 'General', 'id': 465887716354031624, 'level': 3}
-    JUNIOR = {'name': 'Junior', 'id': 465896256972128266, 'level': 2}
-    PROBIE = {'name': 'Probie', 'id': 475211931905556490, 'level': 1}
-    ADMINISTRATOR = {'name': 'Administrator', 'id': 465874213324980244, 'level': 0}
+    EXECUTIVE = {'name': 'Executive', 'id': '465896094333927424', 'level': 99999}
+    HEAD = {'name': 'Head', 'id': '465894668094144512', 'level': 1337}
+    SENIOR = {'name': 'Senior', 'id': '465896014130184192', 'level': 4}
+    GENERAL = {'name': 'General', 'id': '465887716354031624', 'level': 3}
+    JUNIOR = {'name': 'Junior', 'id': '465896256972128266', 'level': 2}
+    PROBIE = {'name': 'Probie', 'id': '475211931905556490', 'level': 1}
+    ADMINISTRATOR = {'name': 'Administrator', 'id': '465874213324980244', 'level': 0}
     ADMIN_ROLES = [EXECUTIVE, HEAD, SENIOR, GENERAL, JUNIOR, PROBIE, ADMINISTRATOR]
 
-    HELPER = {'name': 'Helper', 'id': 465874370904981514, 'level': -1}
-    DEVELOPER = {'name': 'Developer', 'id': 465874671733309440, 'level': -1}
-    TESTER = {'name': 'Tester', 'id': 465874643337740290, 'level': -1}
+    HELPER = {'name': 'Helper', 'id': '465874370904981514', 'level': -1}
+    DEVELOPER = {'name': 'Developer', 'id': '465874671733309440', 'level': -1}
+    TESTER = {'name': 'Tester', 'id': '465874643337740290', 'level': -1}
 
     @staticmethod
     def has_roles(author: Member, role_list: List[Dict[str, Union[str, int]]]) -> bool:
@@ -84,26 +83,26 @@ class Role:
 class Channel:
     # IDs for every channel in the server
     # HELP/GENERAL
-    GENERAL = 465873343518736397
+    GENERAL = '465873343518736397'
 
     # ADMINISTRATORS
-    DISCUSSION_ADMIN = 466404751857287178
-    CHAT = 465873855672745985
-    COMMANDS = 465875438321795074
+    DISCUSSION_ADMIN = '466404751857287178'
+    CHAT = '465873855672745985'
+    COMMANDS = '465875438321795074'
 
     # HELPERS
-    DISCUSSION_HELPER = 466420981813215232
-    NEWBIE = 465874164960460800
+    DISCUSSION_HELPER = '466420981813215232'
+    NEWBIE = '465874164960460800'
 
     # PUBLIC SERVICES
-    GOVERNMENT = 466434019278585869
-    NEWS_AGENCY = 466434102661349380
+    GOVERNMENT = '466434019278585869'
+    NEWS_AGENCY = '466434102661349380'
 
     # DEVELOPMENT
-    TESTERS = 465874413267582986
-    CONFIRMED_BUGS = 471553508118626315
-    BUGS = 465879591656095754
-    BOT_TODO = 466949031898382356
+    TESTERS = '465874413267582986'
+    CONFIRMED_BUGS = '471553508118626315'
+    BUGS = '65879591656095754'
+    BOT_TODO = '466949031898382356'
 
 
 class Section:
@@ -115,7 +114,7 @@ class Section:
     DEVELOPMENT = [Channel.TESTERS, Channel.CONFIRMED_BUGS, Channel.BUGS, Channel.BOT_TODO]
 
     @staticmethod
-    def in_sections(channel_id: int, section_list: List[List[int]]) -> bool:
+    def in_sections(channel_id: str, section_list: List[List[str]]) -> bool:
         """
         Verifies a Discord message was posted in the correct section(s) by taking in a list of lists containing
         channel IDs
