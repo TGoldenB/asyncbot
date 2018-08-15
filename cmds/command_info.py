@@ -19,8 +19,8 @@ commands = {
         },
 
         'newb': {
-            'brief': 'Send a message in /newb.',
-            'help': 'USAGE: !newb [message]',
+            'brief': 'Send a message in /newb',
+            'help': 'USAGE: !newb <message>',
             'pass_context': True
         }
     },
@@ -28,48 +28,47 @@ commands = {
     # Admin cog
     'admin': {
         'a': {
-            'brief': 'Send a message in /a.',
-            'help': 'USAGE: !a [message]',
+            'brief': 'Send a message in /a',
+            'help': 'USAGE: !a <message>',
             'pass_context': True
         },
 
         'admins': {
-            'brief': 'List all online administrators.',
+            'brief': 'List all online administrators',
             'help': 'USAGE: !admins',
             'pass_context': True
         },
 
         'prison': {
-            'brief': 'Prison a player.',
-            'help': 'USAGE: !prison [id/name] [time(minutes)] [reason]',
+            'brief': 'Prison a player',
+            'help': 'USAGE: !prison <id/name> <time(minutes)> <reason>',
             'pass_context': True
         },
 
         'getlogs': {
-            'brief': 'Gather server logs of a specific phrase.',
-            'help': 'USAGE: !getlogs [phrase]',
-            'descrption': 'Surround in "" if there are spaces in the phrase\nAlias: !gl',
+            'brief': 'Gather server logs of a specific phrase',
+            'help': 'USAGE: !getlogs <pattern>',
+            'descrption': 'Surround in "" if there are spaces in the phrase',
             'aliases': ['gl'],
             'pass_context': True
         },
 
         'getbanreason': {
             'brief': 'Get the ban reason of a player',
-            'help': 'USAGE: !getbanreason [firstname_lastname]',
-            'description': 'Alias: !gbr',
+            'help': 'USAGE: !getbanreason <firstname_lastname>',
             'aliases': ['gbr'],
             'pass_context': True
         },
 
         'kick': {
-            'brief': 'Kick a player.',
-            'help': 'USAGE: !kick [id/name] [reason]',
+            'brief': 'Kick a player',
+            'help': 'USAGE: !kick <id/name> <reason>',
             'pass_context': True
         },
 
         'w': {
-            'brief': 'Whisper a player.',
-            'help': 'USAGE: !w [id/name] [message]',
+            'brief': 'Whisper a player',
+            'help': 'USAGE: !w <id/name> <message>',
             'pass_context': True
         }
     },
@@ -77,8 +76,8 @@ commands = {
     # Developer cog
     'developer': {
         'dt': {
-            'brief': 'Send a message in /dt.',
-            'help': 'USAGE: !dt [message]',
+            'brief': 'Send a message in /dt',
+            'help': 'USAGE: !dt <message>',
             'pass_context': True
         }
     }

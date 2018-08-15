@@ -225,6 +225,6 @@ stock Discord:GetTimeString() {
     new h, m, s;
     gettime(h, m, s);
     h = FixHour(h);
-    format(string, sizeof string, "%d:%d:%d", h, m, s);
+    format(string, sizeof(string), "%02d:%02d:%02d.", h, m, s)
     return string;
 }
