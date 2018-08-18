@@ -1,0 +1,15 @@
+[submodule "client/pawno/include/YSI-Includes"]
+	path = client/pawno/include/YSI-Includes
+	url = https://github.com/pawn-lang/YSI-Includes
+[submodule "client/pawno/include/formatex"]
+	path = client/pawno/include/formatex
+	url = https://github.com/Southclaws/formatex
+[submodule "client/pawno/include/SAMPSON"]
+	path = client/pawno/include/SAMPSON
+	url = https://github.com/Hual/SAMPSON
+[submodule "client/pawno/include/samp-plugin-crashdetect"]
+	path = client/pawno/include/samp-plugin-crashdetect
+	url = https://github.com/Zeex/samp-plugin-crashdetect
+[submodule "client/pawno/include/amx_assembly"]
+	path = client/pawno/include/amx_assembly
+	url = https://github.com/Zeex/amx_assembly
