@@ -1,8 +1,9 @@
 /*
     @Author: dy1zan
-    @Command: !a
-    This callback is invoked whenever someone types !a in Discord.
-    This will send an admin chat message in-game, of the message sent from Discord.
+    @Command: !say
+    This callback is invoked whenever someone types !say in Discord assuming the server has implemented
+    this command and sends JSON data.
+    This will receive the data received from the Python server and send it to all players.
 */
 DiscordResponse::say(data[]) {
     //Convert string into JSON object so we can extract data e.g sender, message
