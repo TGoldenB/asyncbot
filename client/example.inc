@@ -21,3 +21,25 @@ DiscordResponse::say(data[]) {
     SendClientMessageToAll(0xFEB918FF, string);
     return 1;
 }
+
+
+/*
+    This can be anywhere...
+    dsay stands for discord say
+    sends a message to some discord channel.
+*/
+CMD:dsay(playerid, params[])
+{
+	new msg[128];
+
+	if(sscanf(params, "s[128]", msg)) {
+        return SendClientMessage(playerid, COLOR_GREY, "{00BFFF}Usage:{FFFFFF} /dsay [message]");
+    }
+
+	format(str, sizeof(str), "%s : %s", "Someone", msg);
+
+	SendMessageToAll(0x559F75FF, str);
+
+	discord_sendBasicRequest(DISCORD_ADMINCHAT_CHANNEL, "Someone says...", str, 0x3C9B93);
+	return 1;
+}
