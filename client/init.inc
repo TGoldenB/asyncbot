@@ -28,14 +28,6 @@ Hook:Discord_OnGameModeExit() {
     return 1;
 }
 
-CMD:dconnect(playerid, params[]) {
-    if(PlayerInfo[playerid][pDev] > 2) {
-        SendClientMessage(playerid, -1, "You have requested the SA:MP server to reconnect to the Discord bot.");
-        discord_reconnect();
-    }
-    return 1;
-}
-
 
 /* ====================================================================
     Include any files containing message types e.g what should the
