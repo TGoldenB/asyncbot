@@ -1,3 +1,9 @@
+"""
+    Author: dy1zan
+    An asynchronous server implemented in Python
+    which handles a variety of JSON requests.
+"""
+
 import asyncio
 import json
 import logging

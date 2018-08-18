@@ -3,39 +3,55 @@ import discord
 import json
 
 """
-    This file defines the output/style of bot messages,
-    from requests received from the SA:MP server.
+    This file handles data sent from the PAWN
+    client, or any other type of client...
+
+    An example JSON request (which my PAWN API handles for you):
+    {
+        "type":"basic",
+        "title":"Hello World",
+        "message":"How are you doing, World?",
+        "color":"{SOME VALID COLOUR IN DECIMAL}",
+        "time":"{SOME VALID UNIX TIMESTAMP}"
+    }
 """
 
-# Stock/Default request types (ones that are reused)
+
 @request_type
 async def basic_player(server, data):
-    #Set title (with player name appended), description and colour of the embed.
-    embed = discord.Embed(title=data['title'] + " " + data['player'], description=data['message'], color=discord.Colour(int(data['color'])))
-    #Set time as footer
+    """
+        Same as @request_type=basic, except the player's name is appended
+        to the title.
+    """
+    embed = discord.Embed(
+        title=data['title'] + " " + data['player'],
+        description=data['message'],
+        color=discord.Colour(int(data['color']))
+    )
     embed.set_footer(text=data['time'])
-    #Send the embedded message to the specified channel
-    await server.bot.send_message(discord.Object(id=data['channel']), embed=embed)
+
+    # send the output to the specified Discord channel
+    await server.bot.send_message(
+        discord.Object(id=data['channel']),
+        embed=embed
+    )
 
 @request_type
 async def basic(server, data):
-    embed = discord.Embed(title=data['title'], description=data['message'], color=discord.Colour(int(data['color'])))
+    """
+        This represents a basic Discord output format.
+        A title, a message in a coloured box with the time
+        in the footer.
+    """
+    embed = discord.Embed(
+        title=data['title'],
+        description=data['message'],
+        color=discord.Colour(int(data['color']))
+    )
     embed.set_footer(text=data['time'])
-    await server.bot.send_message(discord.Object(id=data['channel']), embed=embed)
 
-@request_type
-async def table(server, data):
-    embed = discord.Embed(title=data['title'], description="Here is your response...", color=discord.Colour(int(data['color'])))
-
-    lines = data['message'].split('\n')
-
-    for line in lines:
-        cols = line.split('\t')
-        for col in cols:
-            if(len(col) == 0): continue
-            val = col.split('\r')
-
-            embed.add_field(name=val[0], value=val[1], inline=True)
-
-    embed.set_footer(text=data['time'])
-    await server.bot.send_message(discord.Object(id=data['channel']), embed=embed)
+    # send the output to the specified Discord channel
+    await server.bot.send_message(
+        discord.Object(id=data['channel']),
+        embed=embed
+    )
