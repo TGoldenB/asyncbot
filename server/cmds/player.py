@@ -37,7 +37,7 @@ class Player(object):
         await util.send_check(self.bot, ctx.message, out)
 
     @command(**cog_commands['id'])
-    async def id(self, ctx: Context, *, pattern):
+    async def id(self, ctx: Context, pattern: str):
         channel = ctx.message.channel
 
         out = json.dumps({
