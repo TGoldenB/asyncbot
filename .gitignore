@@ -3,3 +3,4 @@ server/settings.py
 .vs/slnx.sqlite
 .vscode/launch.json
 __pycache__/
+venv/
