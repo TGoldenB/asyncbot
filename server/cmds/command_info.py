@@ -46,9 +46,9 @@ commands = {
         },
 
         'getlogs': {
-            'brief': 'Gather server logs of a specific phrase',
+            'brief': 'Gather server logs of a specific pattern',
             'help': 'USAGE: !getlogs <pattern>',
-            'descrption': 'Surround in "" if there are spaces in the phrase',
+            'description': 'Surround the pattern in quotation marks if there are spaces in the pattern',
             'aliases': ['gl'],
             'pass_context': True
         },
