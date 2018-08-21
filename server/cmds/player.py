@@ -25,6 +25,29 @@ class Player(object):
         await self.bot.say(
             "I am S-k-y-n-e-t. I will destroy the Sarpian race. Really though, I will fulfill your in-game demands.")
 
+    @command(**cog_commands['time'])
+    async def time(self, ctx: Context):
+        channel = ctx.message.channel
+
+        out = json.dumps({
+            "type": "time",
+            "channel": str(channel.id),
+        })
+
+        await util.send_check(self.bot, ctx.message, out)
+
+    @command(**cog_commands['id'])
+    async def id(self, ctx: Context, *, pattern):
+        channel = ctx.message.channel
+
+        out = json.dumps({
+            "type": "id",
+            "channel": str(channel.id),
+            "pattern": pattern
+        })
+
+        await util.send_check(self.bot, ctx.message, out)
+
     @command(**cog_commands['newb'])
     async def newb(self, ctx: Context, *, message: str):
         author = ctx.message.author

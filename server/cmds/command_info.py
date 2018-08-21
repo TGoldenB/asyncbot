@@ -18,6 +18,18 @@ commands = {
             'help': 'USAGE: !whoareyou',
         },
 
+        'id': {
+            'brief': 'List player(s) containing the phrase or ID',
+            'help': 'USAGE: !id <id/part_of_name>',
+            'pass_context': True
+        },
+
+        'time': {
+            'brief': 'Display the current server time',
+            'help': 'USAGE: !time',
+            'pass_context': True
+        },
+
         'newb': {
             'brief': 'Send a message in /newb',
             'help': 'USAGE: !newb <message>',
