@@ -18,6 +18,18 @@ commands = {
             'help': 'USAGE: !whoareyou',
         },
 
+        'id': {
+            'brief': 'List player(s) containing the phrase or ID',
+            'help': 'USAGE: !id <id/part_of_name>',
+            'pass_context': True
+        },
+
+        'time': {
+            'brief': 'Display the current server time',
+            'help': 'USAGE: !time',
+            'pass_context': True
+        },
+
         'newb': {
             'brief': 'Send a message in /newb',
             'help': 'USAGE: !newb <message>',
@@ -46,9 +58,9 @@ commands = {
         },
 
         'getlogs': {
-            'brief': 'Gather server logs of a specific phrase',
+            'brief': 'Gather server logs of a specific pattern',
             'help': 'USAGE: !getlogs <pattern>',
-            'descrption': 'Surround in "" if there are spaces in the phrase',
+            'description': 'Surround the pattern in quotation marks if there are spaces in the pattern',
             'aliases': ['gl'],
             'pass_context': True
         },
