@@ -75,6 +75,7 @@ class AServer(object):
         self.__loop.stop()
         self.__alive = False
         log.info("Server has been stopped by request.")
+        exit()
 
 
     async def handle_connection(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
