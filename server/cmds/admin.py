@@ -30,7 +30,7 @@ class Admin(object):
         if not Role.is_admin(author):
             return await self.bot.say("You are not an administrator.")
         if not Section.in_sections(channel.id, [Section.ADMINISTRATORS]):
-            return await self.bot.say("You must use this command in the _ADMINISTRATORS_ section.")
+            return await self.bot.say("You must use this command in the _Administrators_ section.")
 
         out = json.dumps({
             "type": "asay",
@@ -85,11 +85,14 @@ class Admin(object):
             return await self.bot.say("Probationary admins cannot use this feature.")
 
         cmd = ['grep', '-m 3000', '-E', pattern, '/home/sarp/samp03z/server_log.txt']
-        with open('./files/log.txt', 'wb') as logf:
+        with open('../files/log.txt', 'wb') as logf:
             subprocess.Popen(cmd, stdout=logf, shell=False)  # shell=False to avoid shell injection
 
+        if util.get_log_length() == 0:
+            return await self.bot.say("No logs found.")
+
         await asyncio.sleep(2)
-        await self.bot.upload('./files/log.txt')
+        await self.bot.upload('../files/log.txt')
 
     @command(**cog_commands['getbanreason'])
     async def getbanreason(self, ctx: Context, player: str):
@@ -119,7 +122,7 @@ class Admin(object):
         if not Role.is_admin(author):
             return await self.bot.say("You are not an administrator.")
         if not Section.in_sections(channel.id, [Section.ADMINISTRATORS, Section.HELPERS]):
-            return await self.bot.say("You must use this command in the _ADMINISTRATORS_ or _HELPERS_ section.")
+            return await self.bot.say("You must use this command in the _Administrators_ or _Helpers_ section.")
 
         out = json.dumps({
             "type": "kick",
@@ -138,7 +141,7 @@ class Admin(object):
         if not Role.is_admin(author):
             return await self.bot.say("You are not an administrator.")
         if not Section.in_sections(channel.id, [Section.ADMINISTRATORS, Section.HELPERS]):
-            return await self.bot.say("You must use this command in the _ADMINISTRATORS_ or _HELPERS_ section.")
+            return await self.bot.say("You must use this command in the _Administrators_ or _Helpers_ section.")
 
         out = json.dumps({
             "type": "w",

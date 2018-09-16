@@ -1,5 +1,4 @@
 import discord
-
 from server import server
 
 """
@@ -14,3 +13,11 @@ async def send_check(bot, message: discord.Message, data: str):
         await bot.add_reaction(message, '✅')
     else:
         await bot.add_reaction(message, '❌')
+
+
+def get_log_length():
+    chars = []
+    with open('../files/log.txt', "r") as f:
+        for char in f.read():
+            chars.append(char)
+    return len(chars)
