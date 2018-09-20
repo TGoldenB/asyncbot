@@ -88,8 +88,12 @@ class Admin(object):
         with open('../files/log.txt', 'wb') as logf:
             subprocess.Popen(cmd, stdout=logf, shell=False)  # shell=False to avoid shell injection
 
-        if util.get_log_length() == 0:
+        if util.get_log_chars() == 0:
             return await self.bot.say("No logs found.")
+        elif util.get_log_lines() <= 10:
+            with open('../files/log.txt', "r") as f:
+                log_message = f'```\n{f.read()}\n```'
+            return await self.bot.say(log_message)
 
         await asyncio.sleep(2)
         await self.bot.upload('../files/log.txt')
