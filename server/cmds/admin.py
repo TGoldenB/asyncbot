@@ -40,17 +40,6 @@ class Admin(object):
 
         await util.send_check(self.bot, ctx.message, out)
 
-    @command(**cog_commands['admins'])
-    async def admins(self, ctx: Context):
-        channel = ctx.message.channel
-
-        out = json.dumps({
-            "type": "admins",
-            "channel": str(channel.id)
-        })
-
-        await util.send_check(self.bot, ctx.message, out)
-
     @command(**cog_commands['prison'])
     async def prison(self, ctx: Context,  player: str, ptime: int, *, reason: str):
         author = ctx.message.author
@@ -91,9 +80,10 @@ class Admin(object):
         if util.get_log_chars() == 0:
             return await self.bot.say("No logs found.")
         elif util.get_log_lines() <= 10:
-            with open('../files/log.txt', "r") as f:
-                log_message = f'```\n{f.read()}\n```'
-            return await self.bot.say(log_message)
+            if util.get_log_chars() < 1990:
+                with open('../files/log.txt', "r") as f:
+                    log_message = f'```\n{f.read()}\n```'
+                return await self.bot.say(log_message)
 
         await asyncio.sleep(2)
         await self.bot.upload('../files/log.txt')

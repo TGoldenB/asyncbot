@@ -18,6 +18,12 @@ commands = {
             'help': 'USAGE: !whoareyou',
         },
 
+        'admins': {
+            'brief': 'List all online administrators',
+            'help': 'USAGE: !admins',
+            'pass_context': True
+        },
+
         'id': {
             'brief': 'List player(s) containing the phrase or ID',
             'help': 'USAGE: !id <id/part_of_name>',
@@ -42,12 +48,6 @@ commands = {
         'a': {
             'brief': 'Send a message in /a',
             'help': 'USAGE: !a <message>',
-            'pass_context': True
-        },
-
-        'admins': {
-            'brief': 'List all online administrators',
-            'help': 'USAGE: !admins',
             'pass_context': True
         },
 
