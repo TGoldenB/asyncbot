@@ -18,14 +18,14 @@ async def send_check(bot, message: discord.Message, data: str):
 
 def get_log_chars():
     chars = []
-    with open('../files/log.txt', "r") as f:
+    with open('server/files/log.txt', "r") as f:
         for char in f.read():
             chars.append(char)
     return len(chars)
 
 
 def get_log_lines():
-    num_lines = sum(1 for line in open('../files/log.txt'))
+    num_lines = sum(1 for line in open('server/files/log.txt'))
     return num_lines
 
 

@@ -74,19 +74,19 @@ class Admin(object):
             return await self.bot.say("Probationary admins cannot use this feature.")
 
         cmd = ['grep', '-m 3000', '-E', pattern, '/home/sarp/samp03z/server_log.txt']
-        with open('../files/log.txt', 'wb') as logf:
+        with open('server/files/log.txt', 'wb') as logf:
             subprocess.Popen(cmd, stdout=logf, shell=False)  # shell=False to avoid shell injection
+        await asyncio.sleep(2)
 
         if util.get_log_chars() == 0:
             return await self.bot.say("No logs found.")
-        elif util.get_log_lines() <= 10:
-            if util.get_log_chars() < 1990:
-                with open('../files/log.txt', "r") as f:
-                    log_message = f'```\n{f.read()}\n```'
-                return await self.bot.say(log_message)
 
-        await asyncio.sleep(2)
-        await self.bot.upload('../files/log.txt')
+        if util.get_log_lines() <= 10 and util.get_log_chars() < 1990:
+            with open('server/files/log.txt', "r") as f:
+                log_message = f'```\n{f.read()}\n```'
+            return await self.bot.say(log_message)
+
+        await self.bot.upload('server/files/log.txt')
 
     @command(**cog_commands['getbanreason'])
     async def getbanreason(self, ctx: Context, player: str):
