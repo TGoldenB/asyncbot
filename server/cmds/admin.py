@@ -83,7 +83,7 @@ class Admin(object):
 
         if util.get_log_lines() <= 10 and util.get_log_chars() < 1990:
             with open('server/files/log.txt', "r") as f:
-                log_message = f'```\n{f.read()}\n```'
+                log_message = '```\n{}\n```.format(f.read())
             return await self.bot.say(log_message)
 
         await self.bot.upload('server/files/log.txt')
