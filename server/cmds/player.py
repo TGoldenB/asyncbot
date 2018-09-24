@@ -36,6 +36,17 @@ class Player(object):
 
         await util.send_check(self.bot, ctx.message, out)
 
+    @command(**cog_commands['admins'])
+    async def admins(self, ctx: Context):
+        channel = ctx.message.channel
+
+        out = json.dumps({
+            "type": "admins",
+            "channel": str(channel.id)
+        })
+
+        await util.send_check(self.bot, ctx.message, out)
+
     @command(**cog_commands['id'])
     async def id(self, ctx: Context, pattern: str):
         channel = ctx.message.channel

@@ -1,5 +1,5 @@
 import discord
-
+#  from itertools import islice
 from server import server
 
 """
@@ -14,3 +14,22 @@ async def send_check(bot, message: discord.Message, data: str):
         await bot.add_reaction(message, '✅')
     else:
         await bot.add_reaction(message, '❌')
+
+
+def get_log_chars():
+    chars = []
+    with open('server/files/log.txt', "r") as f:
+        for char in f.read():
+            chars.append(char)
+    return len(chars)
+
+
+def get_log_lines():
+    num_lines = sum(1 for line in open('server/files/log.txt'))
+    return num_lines
+
+
+# def get_lines(lines: int):
+#     with open('../files/log.txt', "r") as f:
+#         head = list(islice(f, lines))
+#     print(head)

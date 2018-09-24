@@ -30,23 +30,12 @@ class Admin(object):
         if not Role.is_admin(author):
             return await self.bot.say("You are not an administrator.")
         if not Section.in_sections(channel.id, [Section.ADMINISTRATORS]):
-            return await self.bot.say("You must use this command in the _ADMINISTRATORS_ section.")
+            return await self.bot.say("You must use this command in the _Administrators_ section.")
 
         out = json.dumps({
             "type": "asay",
             "sender": str(author.display_name),
             "message": message
-        })
-
-        await util.send_check(self.bot, ctx.message, out)
-
-    @command(**cog_commands['admins'])
-    async def admins(self, ctx: Context):
-        channel = ctx.message.channel
-
-        out = json.dumps({
-            "type": "admins",
-            "channel": str(channel.id)
         })
 
         await util.send_check(self.bot, ctx.message, out)
@@ -85,11 +74,19 @@ class Admin(object):
             return await self.bot.say("Probationary admins cannot use this feature.")
 
         cmd = ['grep', '-m 3000', '-E', pattern, '/home/sarp/samp03z/server_log.txt']
-        with open('./files/log.txt', 'wb') as logf:
+        with open('server/files/log.txt', 'wb') as logf:
             subprocess.Popen(cmd, stdout=logf, shell=False)  # shell=False to avoid shell injection
-
         await asyncio.sleep(2)
-        await self.bot.upload('./files/log.txt')
+
+        if util.get_log_chars() == 0:
+            return await self.bot.say("No logs found.")
+
+        if util.get_log_lines() <= 10 and util.get_log_chars() < 1990:
+            with open('server/files/log.txt', "r") as f:
+                log_message = f'```\n{f.read()}\n```'
+            return await self.bot.say(log_message)
+
+        await self.bot.upload('server/files/log.txt')
 
     @command(**cog_commands['getbanreason'])
     async def getbanreason(self, ctx: Context, player: str):
@@ -119,7 +116,7 @@ class Admin(object):
         if not Role.is_admin(author):
             return await self.bot.say("You are not an administrator.")
         if not Section.in_sections(channel.id, [Section.ADMINISTRATORS, Section.HELPERS]):
-            return await self.bot.say("You must use this command in the _ADMINISTRATORS_ or _HELPERS_ section.")
+            return await self.bot.say("You must use this command in the _Administrators_ or _Helpers_ section.")
 
         out = json.dumps({
             "type": "kick",
@@ -138,7 +135,7 @@ class Admin(object):
         if not Role.is_admin(author):
             return await self.bot.say("You are not an administrator.")
         if not Section.in_sections(channel.id, [Section.ADMINISTRATORS, Section.HELPERS]):
-            return await self.bot.say("You must use this command in the _ADMINISTRATORS_ or _HELPERS_ section.")
+            return await self.bot.say("You must use this command in the _Administrators_ or _Helpers_ section.")
 
         out = json.dumps({
             "type": "w",
