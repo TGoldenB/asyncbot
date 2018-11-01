@@ -32,8 +32,8 @@
  * </subsection>
  * <p>The following sets the log level (ideally in OnScriptInit()), and then prints a debug message.
  * <code>
- * Log:level(LOGL_DEBUG);<br />
- * Log:debug("vehicles.inc", "Created %p's vehicle (%s) with vehicle SQL ID=%d", playerid, vehiclename, sqlid);
+ * log_level(LOGL_DEBUG);<br />
+ * log_debug("vehicles.inc", "Created %p's vehicle (%s) with vehicle SQL ID=%d", playerid, vehiclename, sqlid);
  * </code>
  * </p>
  *
